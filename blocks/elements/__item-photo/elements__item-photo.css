@@ -1,0 +1,8 @@
+.elements__item-photo {
+  box-sizing: border-box;
+  display: block;
+  margin: 0;
+  padding: 0;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
