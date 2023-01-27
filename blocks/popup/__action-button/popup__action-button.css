@@ -1,0 +1,20 @@
+.popup__action-button {
+  width: 100%;
+  height: 50px;
+  border-radius: 2px;
+  background-color: #000;
+  color: #fff;
+  font-size: 18px;
+}
+
+@media screen and (max-width: 920px) {
+  .popup__action-button {
+    height: 46px;
+    font-size: 14px;
+  }
+}
+
+.popup__action-button:hover {
+  cursor: pointer;
+  opacity: 0.8;
+}
