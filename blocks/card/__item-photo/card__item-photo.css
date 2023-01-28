@@ -1,6 +1,9 @@
-.elements__item-photo {
+.card__item-photo {
   box-sizing: border-box;
   display: block;
+  width: 282px;
+  height: 282px;
+  object-fit: contain;
   margin: 0;
   padding: 0;
   border-top-left-radius: 10px;

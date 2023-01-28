@@ -1,14 +1,14 @@
-.elements__like-button {
+.card__like-button {
   width: 22px;
   height: 22px;
   background-image: url("../../../images/Disabled\ Like.svg");
   background-repeat: no-repeat;
-  background-color: #fff;
+  background-color: transparent;
   background-position: 50% 50%;
   border: none;
 }
 
-.elements__like-button:hover {
+.card__like-button:hover {
   cursor: pointer;
-  opacity: 0.6;
+  opacity: 0.5;
 }
