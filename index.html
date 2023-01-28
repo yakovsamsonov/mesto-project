@@ -14,76 +14,78 @@
     <img src="./images/Logo.svg" alt="Логотип, Место" class="header__logo">
   </header>
   <main class="content">
-    <section class="popup popup_opened">
-      <div class="popup__close-button"></div>
-      <div class="popup__container">
-        <h2 class="popup__heading">Редактировать профиль</h2>
-        <fieldset class="popup__input-container">
-          <input type="text" class="popup__input-item" id="name" name="name" placeholder="Введите имя"
-            value="Жак-Ив Кусто" required>
-          <input type="text" class="popup__input-item" id="description" name="description"
-            placeholder="Введите описание" value="Исследователь океана" required>
-        </fieldset>
-        <input type="submit" class="popup__action-button" value="Сохранить">
-      </div>
-    </section>
     <section class="profile">
       <img src="./images/Kusto.jpg" alt="Кусто" class="profile__avatar">
       <div class="profile__info">
-        <h1 class="profile__name">
-          Жак-Ив Кусто
-          <button class="profile__edit-button"></button>
-        </h1>
+        <div class="profile__name-container">
+          <h1 class="profile__name">Жак-Ив Кусто</h1>
+          <button type="button" class="profile__edit-button"></button>
+        </div>
         <p class="profile__description">Исследователь океана</p>
       </div>
-      <button class="profile__add-button"></button>
+      <button type="button" class="profile__add-button"></button>
     </section>
     <section class="elements">
-      <figure class="elements__item">
-        <img src="./images/kirill-pershin-1088404-unsplash.png" alt="Карачаевск, церковь" class="elements__item-photo">
-        <figcaption class="elements__item-info">
-          <h2 class="elements__item-label">Карачаевск</h2>
-          <button class="elements__like-button elements__like-button_active"></button>
-        </figcaption>
-      </figure>
-      <figure class="elements__item">
-        <img src="./images/kirill-pershin-1404681-unsplash.png" alt="Гора Эльбрус" class="elements__item-photo">
-        <figcaption class="elements__item-info">
-          <h2 class="elements__item-label">Гора Эльбрус</h2>
-          <button class="elements__like-button"></button>
-        </figcaption>
-      </figure>
-      <figure class="elements__item">
-        <img src="./images/kirill-pershin-1556355-unsplash.png" alt="Домбай" class="elements__item-photo">
-        <figcaption class="elements__item-info">
-          <h2 class="elements__item-label">Домбай</h2>
-          <button class="elements__like-button"></button>
-        </figcaption>
-      </figure>
-      <figure class="elements__item">
-        <img src="./images/kirill-pershin-1404681-unsplash.png" alt="Гора Эльбрус" class="elements__item-photo">
-        <figcaption class="elements__item-info">
-          <h2 class="elements__item-label">Гора Эльбрус</h2>
-          <button class="elements__like-button"></button>
-        </figcaption>
-      </figure>
-      <figure class="elements__item">
-        <img src="./images/kirill-pershin-1556355-unsplash.png" alt="Домбай" class="elements__item-photo">
-        <figcaption class="elements__item-info">
-          <h2 class="elements__item-label">Домбай</h2>
-          <button class="elements__like-button"></button>
-        </figcaption>
-      </figure>
-      <figure class="elements__item">
-        <img src="./images/kirill-pershin-1088404-unsplash.png" alt="Карачаевск, церковь" class="elements__item-photo">
-        <figcaption class="elements__item-info">
-          <h2 class="elements__item-label">Карачаево-Черкессия</h2>
-          <button class="elements__like-button"></button>
-        </figcaption>
-      </figure>
+      <div class="card">
+        <img src="./images/kirill-pershin-1088404-unsplash.png" alt="Карачаевск, церковь" class="card__item-photo">
+        <div class="card__item-info">
+          <h2 class="card__item-label">Карачаевск</h2>
+          <button type="button" class="card__like-button card__like-button_active"></button>
+        </div>
+      </div>
+      <div class="card">
+        <img src="./images/kirill-pershin-1404681-unsplash.png" alt="Гора Эльбрус" class="card__item-photo">
+        <div class="card__item-info">
+          <h2 class="card__item-label">Гора Эльбрус</h2>
+          <button type="button" class="card__like-button"></button>
+        </div>
+      </div>
+      <div class="card">
+        <img src="./images/kirill-pershin-1556355-unsplash.png" alt="Домбай" class="card__item-photo">
+        <div class="card__item-info">
+          <h2 class="card__item-label">Домбай</h2>
+          <button type="button" class="card__like-button"></button>
+        </div>
+      </div>
+      <div class="card">
+        <img src="./images/kirill-pershin-1404681-unsplash.png" alt="Гора Эльбрус" class="card__item-photo">
+        <div class="card__item-info">
+          <h2 class="card__item-label">Гора Эльбрус</h2>
+          <button type="button" class="card__like-button"></button>
+        </div>
+      </div>
+      <div class="card">
+        <img src="./images/kirill-pershin-1556355-unsplash.png" alt="Домбай" class="card__item-photo">
+        <div class="card__item-info">
+          <h2 class="card__item-label">Домбай</h2>
+          <button type="button" class="card__like-button"></button>
+        </div>
+      </div>
+      <div class="card">
+        <img src="./images/kirill-pershin-1088404-unsplash.png" alt="Карачаевск, церковь" class="card__item-photo">
+        <div class="card__item-info">
+          <h2 class="card__item-label">Карачаево-Черкессия</h2>
+          <button type="button" class="card__like-button"></button>
+        </div>
+      </div>
     </section>
   </main>
-  <footer class="footer">&#169; 2023 Mesto Russia</footer>
+  <footer class="footer">
+    <p class="footer__label">&#169; 2023 Mesto Russia</p>
+  </footer>
+  <section class="popup">
+    <form name="Пользователь" class="popup__container">
+      <h2 class="popup__heading">Редактировать профиль</h2>
+      <fieldset class="popup__input-container">
+        <input type="text" class="popup__input-item" id="name" name="name" placeholder="Введите имя"
+          value="Жак-Ив Кусто" required>
+        <input type="text" class="popup__input-item" id="description" name="description" placeholder="Введите описание"
+          value="Исследователь океана" required>
+      </fieldset>
+      <input type="submit" class="popup__action-button" value="Сохранить">
+      <button type="button" class="popup__close-button"></button>
+    </form>
+  </section>
 </body>
 
 </html>

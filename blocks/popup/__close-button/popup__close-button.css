@@ -1,20 +1,24 @@
 .popup__close-button {
+  box-sizing: border-box;
+  padding: 0;
   position: absolute;
   background-repeat: no-repeat;
   background-position: 50% 50%;
+  background-color: unset;
   background-image: url("../../../images/Close\ Icon.svg");
+  border: none;
   width: 48px;
   height: 48px;
-  top: calc(50% - 330px / 2 - 48px);
-  left: calc(50% + 430px / 2);
+  top: -48px;
+  left: 100%;
 }
 
 @media screen and (max-width: 920px) {
   .popup__close-button {
     width: 20px;
     height: 20px;
-    top: calc(50% - 323px / 2 - 36px);
-    left: calc(50% + 282px / 2 - 20px);
+    top: -36px;
+    left: calc(100% - 20px);
     background-size: contain;
   }
 }

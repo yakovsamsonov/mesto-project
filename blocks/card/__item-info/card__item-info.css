@@ -1,12 +1,11 @@
-.elements__item-info {
+.card__item-info {
   box-sizing: border-box;
   display: flex;
   margin: 0;
-  padding: 0 20px 0;
+  padding: 25px 20px;
   background-color: #fff;
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
   align-items: center;
   justify-content: space-between;
-  height: calc(100% - 282px);
 }
