@@ -6,11 +6,12 @@
   background-position: 50% 50%;
   background-color: unset;
   background-image: url("../../../images/Close\ Icon.svg");
+  background-size: contain;
   border: none;
-  width: 48px;
-  height: 48px;
-  top: -48px;
-  left: 100%;
+  width: 32px;
+  height: 32px;
+  top: -40px;
+  right: -40px;
 }
 
 @media screen and (max-width: 920px) {
@@ -18,7 +19,7 @@
     width: 20px;
     height: 20px;
     top: -36px;
-    left: calc(100% - 20px);
+    right: 0;
     background-size: contain;
   }
 }
