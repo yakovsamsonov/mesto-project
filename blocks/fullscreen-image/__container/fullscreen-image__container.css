@@ -1,0 +1,15 @@
+.fullscreen-image__container {
+  box-sizing: border-box;
+  position: relative;
+  max-width: 75vw;
+  max-height: 75vh;
+  background-color: #fff;
+  width: 100px;
+  height: 100px;
+}
+
+@media screen and (max-width: 920px) {
+  .fullscreen-image__container {
+    max-width: 240px;
+  }
+}
