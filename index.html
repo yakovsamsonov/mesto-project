@@ -18,66 +18,14 @@
       <img src="./images/Kusto.jpg" alt="Кусто" class="profile__avatar">
       <div class="profile__info">
         <div class="profile__name-container">
-          <h1 class="profile__name">
-            Жак-Ив Кусто
-          </h1>
+          <h1 class="profile__name">Жак-Ив Кусто</h1>
           <button type="button" class="profile__edit-button"></button>
         </div>
-        <p class="profile__description">
-          Исследователь океана
-        </p>
+        <p class="profile__description">Исследователь океана</p>
       </div>
       <button type="button" class="profile__add-card-button"></button>
     </section>
-    <section class="elements">
-      <article class="card">
-        <img src="./images/kirill-pershin-1088404-unsplash.png" alt="Карачаевск, церковь" class="card__item-photo">
-        <button type="button" class="card__delete-button"></button>
-        <div class="card__item-info">
-          <h2 class="card__item-label">Карачаевск</h2>
-          <button type="button" class="card__like-button"></button>
-        </div>
-      </article>
-      <article class="card">
-        <img src="./images/kirill-pershin-1404681-unsplash.png" alt="Гора Эльбрус" class="card__item-photo">
-        <button type="button" class="card__delete-button"></button>
-        <div class="card__item-info">
-          <h2 class="card__item-label">Гора Эльбрус</h2>
-          <button type="button" class="card__like-button"></button>
-        </div>
-      </article>
-      <article class="card">
-        <img src="./images/kirill-pershin-1556355-unsplash.png" alt="Домбай" class="card__item-photo">
-        <button type="button" class="card__delete-button"></button>
-        <div class="card__item-info">
-          <h2 class="card__item-label">Домбай</h2>
-          <button type="button" class="card__like-button"></button>
-        </div>
-      </article>
-      <article class="card">
-        <img src="./images/kirill-pershin-1404681-unsplash.png" alt="Гора Эльбрус" class="card__item-photo">
-        <button type="button" class="card__delete-button"></button>
-        <div class="card__item-info">
-          <h2 class="card__item-label">Гора Эльбрус</h2>
-          <button type="button" class="card__like-button"></button>
-        </div>
-      </article>
-      <article class="card">
-        <img src="./images/kirill-pershin-1556355-unsplash.png" alt="Домбай" class="card__item-photo">
-        <button type="button" class="card__delete-button"></button>
-        <div class="card__item-info">
-          <h2 class="card__item-label">Домбай</h2>
-          <button type="button" class="card__like-button"></button>
-        </div>
-      </article>
-      <article class="card">
-        <img src="./images/kirill-pershin-1088404-unsplash.png" alt="Карачаевск, церковь" class="card__item-photo">
-        <button type="button" class="card__delete-button"></button>
-        <div class="card__item-info">
-          <h2 class="card__item-label">Карачаево-Черкессия</h2>
-          <button type="button" class="card__like-button"></button>
-        </div>
-      </article>
+    <section class="elements" aria-label="Посещенные места">
     </section>
   </main>
   <footer class="footer">
@@ -113,14 +61,16 @@
       <button type="button" class="popup__close-button"></button>
     </div>
   </section>
-  <section class="fullscreen-image">
-    <div class="fullscreen-image__container">
+  <section class="popup fullscreen-image" aria-label="Смотреть изображение места">
+    <figure class="fullscreen-image__container">
       <button type="button" class="popup__close-button"></button>
-    </div>
+      <img src="#" alt="" class="fullscreen-image__picture">
+      <figcaption class="fullscreen-image__label"></figcaption>
+    </figure>
   </section>
   <template id="card-template">
     <article class="card">
-      <img src="" alt="" class="card__item-photo">
+      <img src="#" alt="" class="card__item-photo">
       <button type="button" class="card__delete-button"></button>
       <div class="card__item-info">
         <h2 class="card__item-label"></h2>
@@ -128,7 +78,7 @@
       </div>
     </article>
   </template>
-  <script type="text/javascript" src="./script.js"></script>
+  <script src="./script.js"></script>
 </body>
 
 </html>

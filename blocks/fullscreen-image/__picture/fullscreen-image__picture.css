@@ -1,0 +1,5 @@
+.fullscreen-image__picture {
+  width: 100%;
+  max-height: calc(75vh - 30px);
+  object-fit: contain;
+}

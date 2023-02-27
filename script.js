@@ -1,10 +1,8 @@
 const editProfileButton = document.querySelector(".profile__edit-button");
 const addNewCardButton = document.querySelector(".profile__add-card-button");
 const closePopupButtonArray = document.querySelectorAll(".popup__close-button");
-const likeCardButtonArray = document.querySelectorAll(".card__like-button");
-const cardArray = document.querySelectorAll(".card__item-photo");
-const deleteCardButtonArray = document.querySelectorAll(".card__delete-button");
 
+const imageContainer = document.querySelector(".elements");
 const initialCards = [
   {
     name: "Архыз",
@@ -38,17 +36,13 @@ closePopupButtonArray.forEach((element) => {
   element.addEventListener("click", closePopup);
 });
 
-likeCardButtonArray.forEach((element) => {
-  element.addEventListener("click", pressLikeButton);
-});
+renderPage();
 
-cardArray.forEach((element) => {
-  element.addEventListener("click", pressCardImage);
-});
-
-deleteCardButtonArray.forEach((element) => {
-  element.addEventListener("click", pressDeleteButton);
-});
+function renderPage() {
+  initialCards.forEach((item) => {
+    addNewCard(item.link, item.name);
+  });
+}
 
 function openEditProfileWindow() {
   const popup = document.querySelector(".popup_type_edit-profile");
@@ -86,6 +80,27 @@ function openAddCardWindow() {
   popup.addEventListener("submit", submitAddCardWindow);
 }
 
+function addNewCard(source, label) {
+  const cardTemplate = document.querySelector("#card-template").content;
+  const newElement = cardTemplate.querySelector(".card").cloneNode(true);
+
+  newElement.querySelector(".card__item-photo").src = source;
+  newElement.querySelector(".card__item-photo").alt = label;
+  newElement.querySelector(".card__item-label").textContent = label;
+
+  newElement
+    .querySelector(".card__delete-button")
+    .addEventListener("click", pressDeleteButton);
+  newElement
+    .querySelector(".card__like-button")
+    .addEventListener("click", pressLikeButton);
+  newElement
+    .querySelector(".card__item-photo")
+    .addEventListener("click", pressCardImage);
+
+  imageContainer.prepend(newElement);
+}
+
 function submitAddCardWindow(evt) {
   evt.preventDefault();
   const addCardPopup = document.querySelector(".popup_type_add-card");
@@ -96,21 +111,8 @@ function submitAddCardWindow(evt) {
     ".popup__input-item-card"
   ).value;
 
-  const imageContainer = document.querySelector(".elements");
+  addNewCard(providedImageSource, providedImageLabel);
 
-  const cardTemplate = document.querySelector("#card-template").content;
-  const newElement = cardTemplate.querySelector(".card").cloneNode(true);
-
-  newElement.querySelector(".card__item-photo").src = providedImageSource;
-  newElement.querySelector(".card__item-photo").alt = providedImageLabel;
-  newElement.querySelector(".card__item-label").textContent =
-    providedImageLabel;
-
-  newElement
-    .querySelector(".card__delete-button")
-    .addEventListener("click", pressDeleteButton);
-
-  imageContainer.prepend(newElement);
   closePopup();
 }
 
@@ -128,9 +130,15 @@ function pressDeleteButton(event) {
 }
 
 function pressCardImage(event) {
-  console.log(event.target.src);
-  console.log(event.target.alt);
+  const popupPictureSrc = event.target.src;
+  const popupPictureLabel =
+    event.target.parentElement.querySelector(".card__item-label").textContent;
 
   const popup = document.querySelector(".fullscreen-image");
   popup.classList.add("popup_opened");
+
+  popup.querySelector(".fullscreen-image__picture").src = popupPictureSrc;
+  popup.querySelector(".fullscreen-image__picture").alt = popupPictureLabel;
+  popup.querySelector(".fullscreen-image__label").textContent =
+    popupPictureLabel;
 }
