@@ -33,13 +33,13 @@
 @import url("../blocks/popup/__input-item/popup__input-item.css");
 @import url("../blocks/popup/__input-container/popup__input-container.css");
 
+@import url("../blocks/popup/popup.css");
+@import url("../blocks/popup/_opened/popup_opened.css");
+
 @import url("../blocks/fullscreen-image/fullscreen-image.css");
 @import url("../blocks/fullscreen-image/__container/fullscreen-image__container.css");
 @import url("../blocks/fullscreen-image/__picture/fullscreen-image__picture.css");
 @import url("../blocks/fullscreen-image/__label/fullscreen-image__label.css");
-
-@import url("../blocks/popup/popup.css");
-@import url("../blocks/popup/_opened/popup_opened.css");
 
 @import url("../blocks/footer/footer.css");
 @import url("../blocks/footer/__label/footer__label.css");
