@@ -93,11 +93,6 @@ function createCard(source, label) {
   cardItemPhoto.src = source;
   cardItemPhoto.alt = label;
   cardItemLabel.textContent = label;
-  return newElement;
-}
-
-function addNewCard(source, label) {
-  const newElement = createCard(source, label);
 
   newElement
     .querySelector(".card__delete-button")
@@ -108,7 +103,11 @@ function addNewCard(source, label) {
   newElement
     .querySelector(".card__item-photo")
     .addEventListener("click", () => pressCardImage(source, label));
+  return newElement;
+}
 
+function addNewCard(source, label) {
+  const newElement = createCard(source, label);
   imageContainer.prepend(newElement);
 }
 
@@ -116,10 +115,8 @@ function submitAddCardWindow(evt) {
   evt.preventDefault();
 
   addNewCard(cardLinkInput.value, cardLabelInput.value);
-
   closePopup(cardPopup);
-  cardLinkInput.value = "";
-  cardLabelInput.value = "";
+  evt.target.reset();
 }
 
 function openPopup(popup) {
