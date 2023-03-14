@@ -3,6 +3,7 @@ const addNewCardButton = document.querySelector(".profile__add-card-button");
 const imageContainer = document.querySelector(".elements");
 const profileName = document.querySelector(".profile__name");
 const profileDescription = document.querySelector(".profile__description");
+const popups = document.querySelectorAll(".popup");
 const profilePopup = document.querySelector(".popup_type_edit-profile");
 const cardPopup = document.querySelector(".popup_type_add-card");
 const imagePopup = document.querySelector(".fullscreen-image");
@@ -13,7 +14,6 @@ const fullscreenImagePicture = imagePopup.querySelector(
 const fullscreenImageLabel = imagePopup.querySelector(
   ".fullscreen-image__label"
 );
-const closeButtons = document.querySelectorAll(".popup__close-button");
 const profileForm = document.forms["profile"];
 const profileNameInput = profileForm["name"];
 const profileDescriptionInput = profileForm["description"];
@@ -51,17 +51,37 @@ const initialCards = [
 renderPage();
 
 function renderPage() {
+  document.addEventListener("keydown", processKeybord);
+
   editProfileButton.addEventListener("click", openEditProfileWindow);
   addNewCardButton.addEventListener("click", openAddCardWindow);
   initialCards.forEach((item) => {
     addNewCard(item.link, item.name);
   });
-  closeButtons.forEach((button) => {
-    const popup = button.closest(".popup");
-    button.addEventListener("click", () => closePopup(popup));
+  popups.forEach((popup) => {
+    popup.addEventListener("click", processClickOnPopup);
   });
   profileForm.addEventListener("submit", submitEditProfileWindow);
   cardForm.addEventListener("submit", submitAddCardWindow);
+}
+
+function processKeybord(event) {
+  if (event.keyCode == 27) {
+    const openedPopups = document.querySelectorAll(".popup_opened");
+    openedPopups.forEach((el) => {
+      closePopup(el);
+    });
+  }
+}
+
+function processClickOnPopup(evt) {
+  const eventElementClasses = evt.target.classList;
+  if (
+    eventElementClasses.contains("popup__close-button") ||
+    eventElementClasses.contains("popup")
+  ) {
+    closePopup(evt.currentTarget);
+  }
 }
 
 function openEditProfileWindow() {
