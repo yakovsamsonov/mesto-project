@@ -1,10 +1,13 @@
 const editProfileButton = document.querySelector(".profile__edit-button");
+const profileAvatar = document.querySelector(".profile__avatar-box");
+const profileAvatarImage = document.querySelector(".profile__avatar-image");
 const addNewCardButton = document.querySelector(".profile__add-card-button");
 const imageContainer = document.querySelector(".elements");
 const profileName = document.querySelector(".profile__name");
 const profileDescription = document.querySelector(".profile__description");
 const popups = document.querySelectorAll(".popup");
 const profilePopup = document.querySelector(".popup_type_edit-profile");
+const avatarPopup = document.querySelector(".popup_type_edit-avatar");
 const cardPopup = document.querySelector(".popup_type_add-card");
 const imagePopup = document.querySelector(".fullscreen-image");
 const fullscreenImagePicture = imagePopup.querySelector(
@@ -20,6 +23,8 @@ const profileDescriptionInput = profileForm["description"];
 const cardForm = document.forms["card"];
 const cardLabelInput = cardForm["label"];
 const cardLinkInput = cardForm["link"];
+const avatarForm = document.forms["avatar"];
+const avatarLinkInput = avatarForm["avatar-link"];
 
 const initialCards = [
   {
@@ -54,6 +59,7 @@ function renderPage() {
   document.addEventListener("keydown", processKeybord);
 
   editProfileButton.addEventListener("click", openEditProfileWindow);
+  profileAvatar.addEventListener("click", openEditAvatarWindow);
   addNewCardButton.addEventListener("click", openAddCardWindow);
   initialCards.forEach((item) => {
     addNewCard(item.link, item.name);
@@ -62,6 +68,7 @@ function renderPage() {
     popup.addEventListener("click", processClickOnPopup);
   });
   profileForm.addEventListener("submit", submitEditProfileWindow);
+  avatarForm.addEventListener("submit", submitEditAvatarWindow);
   cardForm.addEventListener("submit", submitAddCardWindow);
 }
 
@@ -82,6 +89,19 @@ function processClickOnPopup(evt) {
   ) {
     closePopup(evt.currentTarget);
   }
+}
+
+function openEditAvatarWindow() {
+  openPopup(avatarPopup);
+}
+
+function submitEditAvatarWindow(evt) {
+  evt.preventDefault();
+
+  profileAvatarImage.src = avatarLinkInput.value;
+
+  closePopup(avatarPopup);
+  evt.target.reset();
 }
 
 function openEditProfileWindow() {
