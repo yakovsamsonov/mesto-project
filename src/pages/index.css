@@ -25,16 +25,22 @@
 @import url("../blocks/card/__item-info/card__item-info.css");
 @import url("../blocks/card/__delete-button/card__delete-button.css");
 
-@import url("../blocks/popup/__container/popup__container.css");
-@import url("../blocks/popup/__form/popup__form.css");
-@import url("../blocks/popup/__action-button/popup__action-button.css");
-@import url("../blocks/popup/__close-button/popup__close-button.css");
-@import url("../blocks/popup/__heading/popup__heading.css");
-@import url("../blocks/popup/__input-item/popup__input-item.css");
-@import url("../blocks/popup/__input-container/popup__input-container.css");
+@import url("../blocks/form/form.css");
+@import url("../blocks/form/__field/form__field.css");
+
+@import url("../blocks/form/__action-button/form__action-button.css");
+@import url("../blocks/form/__action-button/_disabled/form__action-button_disabled.css");
+@import url("../blocks/form/__input/form__input.css");
+@import url("../blocks/form/__input/_type/form__input_type.css");
+@import url("../blocks/form/__input-error/form__input-error.css");
+@import url("../blocks/form/__input-error/_visible/form__input-error_visible.css");
+@import url("../blocks/form/__fieldset/form__fieldset.css");
 
 @import url("../blocks/popup/popup.css");
 @import url("../blocks/popup/_opened/popup_opened.css");
+@import url("../blocks/popup/__container/popup__container.css");
+@import url("../blocks/popup/__heading/popup__heading.css");
+@import url("../blocks/popup/__close-button/popup__close-button.css");
 
 @import url("../blocks/fullscreen-image/fullscreen-image.css");
 @import url("../blocks/fullscreen-image/__container/fullscreen-image__container.css");

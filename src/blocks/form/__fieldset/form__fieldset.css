@@ -1,7 +1,6 @@
-.popup__input-container {
+.form__fieldset {
   display: flex;
   flex-direction: column;
-  row-gap: 30px;
   align-items: center;
   margin: 0;
   padding: 0;
