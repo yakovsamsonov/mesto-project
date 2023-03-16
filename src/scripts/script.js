@@ -77,9 +77,6 @@ function renderPage() {
   popups.forEach((popup) => {
     popup.addEventListener("click", processClickOnPopup);
   });
-  profileForm.addEventListener("submit", submitEditProfileWindow);
-  avatarForm.addEventListener("submit", submitEditAvatarWindow);
-  cardForm.addEventListener("submit", submitAddCardWindow);
 }
 
 function processKeybord(event) {
@@ -103,15 +100,6 @@ function processClickOnPopup(evt) {
 
 function openEditAvatarWindow() {
   openPopup(avatarPopup);
-}
-
-function submitEditAvatarWindow(evt) {
-  evt.preventDefault();
-
-  profileAvatarImage.src = avatarLinkInput.value;
-
-  closePopup(avatarPopup);
-  evt.target.reset();
 }
 
 function openEditProfileWindow() {
@@ -157,9 +145,11 @@ function submitForm(evt) {
 
   if (evt.target.id === "card") {
     addNewCard(cardLinkInput.value, cardLabelInput.value);
-  } else if (evt.target.id == "profile") {
+  } else if (evt.target.id === "profile") {
     profileName.textContent = profileNameInput.value;
     profileDescription.textContent = profileDescriptionInput.value;
+  } else if (evt.target.id === "avatar") {
+    profileAvatarImage.src = avatarLinkInput.value;
   }
 
   closePopup(evt.target.closest(".popup"));
