@@ -1,4 +1,4 @@
-.popup__input-item {
+.form__input {
   margin: 0;
   padding: 0 0 0 5px;
   height: 27px;
@@ -8,4 +8,9 @@
   font-size: 14px;
   line-height: 17px;
   font-weight: 400;
+  background-color: white;
+}
+
+.form__input:focus-visible {
+  outline: none;
 }

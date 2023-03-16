@@ -55,6 +55,16 @@ const initialCards = [
 
 renderPage();
 
+enableValidation({
+  formSelector: ".form",
+  fieldsetSelector: ".form__fieldset",
+  inputSelector: ".form__input",
+  submitButtonSelector: ".form__action-button",
+  inactiveButtonClass: "form__action-button_disabled",
+  inputErrorClass: "form__input_type_error",
+  errorClass: "form__input-error_visible",
+});
+
 function renderPage() {
   document.addEventListener("keydown", processKeybord);
 
@@ -111,15 +121,6 @@ function openEditProfileWindow() {
   profileDescriptionInput.value = profileDescription.textContent;
 }
 
-function submitEditProfileWindow(evt) {
-  evt.preventDefault();
-
-  profileName.textContent = profileNameInput.value;
-  profileDescription.textContent = profileDescriptionInput.value;
-
-  closePopup(profilePopup);
-}
-
 function openAddCardWindow() {
   openPopup(cardPopup);
 }
@@ -151,12 +152,17 @@ function addNewCard(source, label) {
   imageContainer.prepend(newElement);
 }
 
-function submitAddCardWindow(evt) {
+function submitForm(evt) {
   evt.preventDefault();
 
-  addNewCard(cardLinkInput.value, cardLabelInput.value);
-  closePopup(cardPopup);
-  evt.target.reset();
+  if (evt.target.id === "card") {
+    addNewCard(cardLinkInput.value, cardLabelInput.value);
+  } else if (evt.target.id == "profile") {
+    profileName.textContent = profileNameInput.value;
+    profileDescription.textContent = profileDescriptionInput.value;
+  }
+
+  closePopup(evt.target.closest(".popup"));
 }
 
 function openPopup(popup) {
@@ -165,6 +171,11 @@ function openPopup(popup) {
 
 function closePopup(popup) {
   popup.classList.remove("popup_opened");
+
+  const popupForm = popup.querySelector(".form");
+  if (popupForm) {
+    popupForm.reset();
+  }
 }
 
 function pressLikeButton(event) {
@@ -181,4 +192,69 @@ function pressCardImage(source, label) {
   fullscreenImagePicture.src = source;
   fullscreenImagePicture.alt = label;
   fullscreenImageLabel.textContent = label;
+}
+
+function enableValidation(validation) {
+  const formList = Array.from(
+    document.querySelectorAll(validation.formSelector)
+  );
+  formList.forEach((form) => {
+    form.addEventListener("submit", submitForm);
+    const fieldsetList = Array.from(
+      form.querySelectorAll(validation.fieldsetSelector)
+    );
+    fieldsetList.forEach((fieldset) => {
+      setFildsetListeners(fieldset, validation);
+    });
+  });
+}
+
+function setFildsetListeners(fieldset, validation) {
+  const inputList = Array.from(
+    fieldset.querySelectorAll(validation.inputSelector)
+  );
+  const submitButton = fieldset.querySelector(validation.submitButtonSelector);
+  toggleButtonState(submitButton, inputList, validation);
+  inputList.forEach((input) => {
+    input.addEventListener("input", () => {
+      checkInputValidity(fieldset, input, validation);
+      toggleButtonState(submitButton, inputList, validation);
+    });
+  });
+}
+
+function toggleButtonState(buttonElement, inputList, validation) {
+  if (hasInvalidInput(inputList)) {
+    buttonElement.classList.add(validation.inactiveButtonClass);
+  } else {
+    buttonElement.classList.remove(validation.inactiveButtonClass);
+  }
+}
+
+function hasInvalidInput(inputList) {
+  return inputList.some((input) => {
+    return !input.validity.valid;
+  });
+}
+
+function checkInputValidity(fieldset, input, validation) {
+  if (input.validity.valid) {
+    hideInputError(fieldset, input, validation);
+  } else {
+    showInputError(fieldset, input, input.validationMessage, validation);
+  }
+}
+
+function hideInputError(fieldset, input, validation) {
+  const errorElement = fieldset.querySelector(`.${input.id}-error`);
+  input.classList.remove(validation.inputErrorClass);
+  errorElement.classList.remove(validation.errorClass);
+  errorElement.textContent = "";
+}
+
+function showInputError(fieldset, input, errorMessage, validation) {
+  const errorElement = fieldset.querySelector(`.${input.id}-error`);
+  input.classList.add(validation.inputErrorClass);
+  errorElement.classList.add(validation.errorClass);
+  errorElement.textContent = errorMessage;
 }
