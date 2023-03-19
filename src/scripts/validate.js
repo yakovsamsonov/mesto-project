@@ -44,6 +44,12 @@ function hasInvalidInput(inputList) {
 }
 
 function checkInputValidity(fieldset, input, validation) {
+  if (input.validity.patternMismatch) {
+    input.setCustomValidity(input.dataset.errorPatternMessage);
+  } else {
+    input.setCustomValidity("");
+  }
+
   if (input.validity.valid) {
     hideInputError(fieldset, input, validation);
   } else {

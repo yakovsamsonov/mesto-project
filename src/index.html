@@ -37,13 +37,14 @@
         <fieldset class="form__fieldset">
           <label class="form__field">
             <input type="text" class="form__input" id="name" name="name" placeholder="Введите имя" required
-              minlength="2" maxlength="40"
+              minlength="2" maxlength="40" pattern="^[A-Za-zА-Яа-яёЁ\s-]+$"
               data-error-pattern-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы">
             <span class="form__input-error name-error"></span>
           </label>
           <label class="form__field">
             <input type="text" class="form__input" id="description" name="description" placeholder="Введите описание"
-              required minlength="2" maxlength="200">
+              required minlength="2" maxlength="200" pattern="^[A-Za-zА-Яа-яёЁ\s-]+$"
+              data-error-pattern-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы">
             <span class="form__input-error description-error"></span>
           </label>
           <button type="submit" class="form__action-button">Сохранить</button>
@@ -59,7 +60,7 @@
         <fieldset class="form__fieldset">
           <label class="form__field">
             <input type="text" class="form__input" id="label" name="label" placeholder="Название" required minlength="2"
-              maxlength="30"
+              maxlength="30" pattern="^[A-Za-zА-Яа-яёЁ\s-]+$"
               data-error-pattern-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы">
             <span class="form__input-error label-error"></span>
           </label>
