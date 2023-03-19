@@ -8,12 +8,14 @@ import {
   openEditProfileWindow,
   openAddCardWindow,
   processClickOnPopup,
+  openEditAvatarWindow,
 } from "./modal.js";
 
 function renderPage() {
   document.addEventListener("keydown", processKeybord);
 
   utils.editProfileButton.addEventListener("click", openEditProfileWindow);
+  utils.profileAvatar.addEventListener("click", openEditAvatarWindow);
   utils.addNewCardButton.addEventListener("click", openAddCardWindow);
   utils.popups.forEach((popup) => {
     popup.addEventListener("click", processClickOnPopup);

@@ -22,9 +22,15 @@ function submitForm(evt) {
   } else if (evt.target.id == "profile") {
     utils.profileName.textContent = utils.profileNameInput.value;
     utils.profileDescription.textContent = utils.profileDescriptionInput.value;
+  } else if (evt.target.id === "avatar") {
+    utils.profileAvatarImage.src = utils.avatarLinkInput.value;
   }
 
   closePopup(evt.target.closest(".popup"));
+}
+
+function openEditAvatarWindow() {
+  openPopup(utils.avatarPopup);
 }
 
 function openEditProfileWindow() {
@@ -69,6 +75,7 @@ export {
   openCardImage,
   processKeybord,
   openEditProfileWindow,
+  openEditAvatarWindow,
   openAddCardWindow,
   processClickOnPopup,
   submitForm,
