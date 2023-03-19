@@ -10,11 +10,11 @@
 
 <body class="page">
   <header class="header">
-    <img src="./images/Logo.svg" alt="Логотип, Место" class="header__logo">
+    <img src="<%=require('./images/Logo.svg')%>" alt="Логотип, Место" class="header__logo">
   </header>
   <main class="content">
     <section class="profile">
-      <img src="./images/Kusto.jpg" alt="Кусто" class="profile__avatar">
+      <img src="<%=require('./images/Kusto.jpg')%>" alt="Кусто" class="profile__avatar">
       <div class="profile__info">
         <div class="profile__name-container">
           <h1 class="profile__name">Жак-Ив Кусто</h1>
@@ -76,13 +76,13 @@
   <section class="popup fullscreen-image" aria-label="Смотреть изображение места">
     <figure class="fullscreen-image__container">
       <button type="button" class="popup__close-button"></button>
-      <img src="#" alt="" class="fullscreen-image__picture">
+      <img src="data:," alt class="fullscreen-image__picture">
       <figcaption class="fullscreen-image__label"></figcaption>
     </figure>
   </section>
   <template id="card-template">
     <article class="card">
-      <img src="#" alt="" class="card__item-photo">
+      <img src="data:," alt class="card__item-photo">
       <button type="button" class="card__delete-button"></button>
       <div class="card__item-info">
         <h2 class="card__item-label"></h2>
