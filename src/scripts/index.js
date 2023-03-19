@@ -1,3 +1,5 @@
+import "../pages/index.css";
+
 import * as utils from "./utils.js";
 import { enableValidation } from "./validate.js";
 import { loadCards } from "./card.js";
