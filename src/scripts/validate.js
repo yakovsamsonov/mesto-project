@@ -1,11 +1,8 @@
-import { submitForm } from "./modal.js";
-
 function enableValidation(validation) {
   const formList = Array.from(
     document.querySelectorAll(validation.formSelector)
   );
   formList.forEach((form) => {
-    form.addEventListener("submit", submitForm);
     const fieldsetList = Array.from(
       form.querySelectorAll(validation.fieldsetSelector)
     );
@@ -32,8 +29,10 @@ function setFildsetListeners(fieldset, validation) {
 function toggleButtonState(buttonElement, inputList, validation) {
   if (hasInvalidInput(inputList)) {
     buttonElement.classList.add(validation.inactiveButtonClass);
+    buttonElement.setAttribute("disabled", true);
   } else {
     buttonElement.classList.remove(validation.inactiveButtonClass);
+    buttonElement.removeAttribute("disabled");
   }
 }
 
