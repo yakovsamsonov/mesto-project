@@ -5,7 +5,8 @@
 - Интро
 - Figma
 - Технологии
-- Установка
+- Подготовка окружения для разработки
+- Сборка и релиз
 
 **Интро**
 
@@ -28,18 +29,24 @@
 - CSS3
 - JavaScript
 
-**Установка**
+**Подготовка окружения для разработки**
 
-Для запуска проекта используется пакет http-server
+webpack (MiniCssExtractPlugin, CleanWebpackPlugin, HtmlWebpackPlugin)
+babel
+postcss (autoprefixer, cssnano)
 
-Установка пакета:
+**Сборка и релиз**
 
-```
-yarn --dev install http-server
-```
-
-Запуск http сервера:
+Сборка диструбутива:
 
 ```
-yarn run http-server
+yarn run build
 ```
+
+Сборка и запуск проекта на локальном сервере:
+
+```
+yarn run dev
+```
+
+Проект будет доступен на http://localhost:8080/
