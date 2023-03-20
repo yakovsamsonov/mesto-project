@@ -1,4 +1,4 @@
-import * as utils from "./utils.js";
+import * as constants from "./constants.js";
 import { openCardImage } from "./modal.js";
 
 const initialCards = [
@@ -44,15 +44,13 @@ function createCard(source, label) {
   newElement
     .querySelector(".card__like-button")
     .addEventListener("click", pressLikeButton);
-  newElement
-    .querySelector(".card__item-photo")
-    .addEventListener("click", () => openCardImage(source, label));
+  cardItemPhoto.addEventListener("click", () => openCardImage(source, label));
   return newElement;
 }
 
 function addNewCard(source, label) {
   const newElement = createCard(source, label);
-  utils.imageContainer.prepend(newElement);
+  constants.imageContainer.prepend(newElement);
 }
 
 function pressLikeButton(event) {

@@ -1,49 +1,50 @@
-import * as utils from "./utils.js";
+import * as constants from "./constants.js";
 import { addNewCard } from "./card.js";
-
-function openPopup(popup) {
-  popup.classList.add("popup_opened");
-}
-
-function closePopup(popup) {
-  popup.classList.remove("popup_opened");
-
-  const popupForm = popup.querySelector(".form");
-  if (popupForm) {
-    popupForm.reset();
-  }
-}
+import { openPopup, closePopup } from "./utils.js";
 
 function submitForm(evt) {
   evt.preventDefault();
 
-  if (evt.target.id === "card") {
-    addNewCard(utils.cardLinkInput.value, utils.cardLabelInput.value);
-  } else if (evt.target.id == "profile") {
-    utils.profileName.textContent = utils.profileNameInput.value;
-    utils.profileDescription.textContent = utils.profileDescriptionInput.value;
-  }
+  const buttonElement = evt.target.querySelector(
+    constants.validationSettings.submitButtonSelector
+  );
+  buttonElement.classList.add(constants.validationSettings.inactiveButtonClass);
+  buttonElement.setAttribute("disabled", true);
 
+  evt.target.reset();
   closePopup(evt.target.closest(".popup"));
 }
 
-function openEditProfileWindow() {
-  openPopup(utils.profilePopup);
+function submitCardForm(evt) {
+  addNewCard(constants.cardLinkInput.value, constants.cardLabelInput.value);
+  submitForm(evt);
+}
 
-  utils.profileNameInput.value = utils.profileName.textContent;
-  utils.profileDescriptionInput.value = utils.profileDescription.textContent;
+function submitProfileForm(evt) {
+  constants.profileName.textContent = constants.profileNameInput.value;
+  constants.profileDescription.textContent =
+    constants.profileDescriptionInput.value;
+  submitForm(evt);
+}
+
+function openEditProfileWindow() {
+  openPopup(constants.profilePopup);
+
+  constants.profileNameInput.value = constants.profileName.textContent;
+  constants.profileDescriptionInput.value =
+    constants.profileDescription.textContent;
 }
 
 function openAddCardWindow() {
-  openPopup(utils.cardPopup);
+  openPopup(constants.cardPopup);
 }
 
 function openCardImage(source, label) {
-  openPopup(utils.imagePopup);
+  openPopup(constants.imagePopup);
 
-  utils.fullscreenImagePicture.src = source;
-  utils.fullscreenImagePicture.alt = label;
-  utils.fullscreenImageLabel.textContent = label;
+  constants.fullscreenImagePicture.src = source;
+  constants.fullscreenImagePicture.alt = label;
+  constants.fullscreenImageLabel.textContent = label;
 }
 
 function processClickOnPopup(evt) {
@@ -56,20 +57,11 @@ function processClickOnPopup(evt) {
   }
 }
 
-function processKeybord(event) {
-  if (event.keyCode == 27) {
-    const openedPopups = document.querySelectorAll(".popup_opened");
-    openedPopups.forEach((el) => {
-      closePopup(el);
-    });
-  }
-}
-
 export {
   openCardImage,
-  processKeybord,
   openEditProfileWindow,
   openAddCardWindow,
   processClickOnPopup,
-  submitForm,
+  submitCardForm,
+  submitProfileForm,
 };
