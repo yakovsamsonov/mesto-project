@@ -1,3 +1,7 @@
+export const profileAvatar = document.querySelector(".profile__avatar-box");
+export const profileAvatarImage = document.querySelector(
+  ".profile__avatar-image"
+);
 export const editProfileButton = document.querySelector(
   ".profile__edit-button"
 );
@@ -12,6 +16,7 @@ export const profileDescription = document.querySelector(
 export const popups = document.querySelectorAll(".popup");
 export const profilePopup = document.querySelector(".popup_type_edit-profile");
 export const cardPopup = document.querySelector(".popup_type_add-card");
+export const avatarPopup = document.querySelector(".popup_type_edit-avatar");
 export const imagePopup = document.querySelector(".fullscreen-image");
 export const fullscreenImagePicture = imagePopup.querySelector(
   ".fullscreen-image__picture"
@@ -26,6 +31,8 @@ export const profileDescriptionInput = profileForm["description"];
 export const cardForm = document.forms["card"];
 export const cardLabelInput = cardForm["label"];
 export const cardLinkInput = cardForm["link"];
+export const avatarForm = document.forms["avatar"];
+export const avatarLinkInput = avatarForm["avatar-link"];
 
 export const validationSettings = {
   formSelector: ".form",

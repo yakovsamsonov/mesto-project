@@ -27,6 +27,15 @@ function submitProfileForm(evt) {
   submitForm(evt);
 }
 
+function submitAvatarFrom(evt) {
+  constants.profileAvatarImage.src = constants.avatarLinkInput.value;
+  submitForm(evt);
+}
+
+function openEditAvatarWindow() {
+  openPopup(constants.avatarPopup);
+}
+
 function openEditProfileWindow() {
   openPopup(constants.profilePopup);
 
@@ -60,8 +69,10 @@ function processClickOnPopup(evt) {
 export {
   openCardImage,
   openEditProfileWindow,
+  openEditAvatarWindow,
   openAddCardWindow,
   processClickOnPopup,
   submitCardForm,
   submitProfileForm,
+  submitAvatarFrom,
 };
