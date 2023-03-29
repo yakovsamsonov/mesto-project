@@ -9,6 +9,7 @@ export const addNewCardButton = document.querySelector(
   ".profile__add-card-button"
 );
 export const imageContainer = document.querySelector(".elements");
+export const profileInfo = document.querySelector(".profile__info");
 export const profileName = document.querySelector(".profile__name");
 export const profileDescription = document.querySelector(
   ".profile__description"
@@ -17,6 +18,9 @@ export const popups = document.querySelectorAll(".popup");
 export const profilePopup = document.querySelector(".popup_type_edit-profile");
 export const cardPopup = document.querySelector(".popup_type_add-card");
 export const avatarPopup = document.querySelector(".popup_type_edit-avatar");
+export const confirmationPopup = document.querySelector(
+  ".popup_type_confirm-delete"
+);
 export const imagePopup = document.querySelector(".fullscreen-image");
 export const fullscreenImagePicture = imagePopup.querySelector(
   ".fullscreen-image__picture"

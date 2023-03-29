@@ -1,6 +1,16 @@
 import * as constants from "./constants.js";
-import { addNewCard } from "./card.js";
+import { deleteCard, saveCard } from "./card.js";
 import { openPopup, closePopup } from "./utils.js";
+import { updateProfile, updateAvatar } from "./api.js";
+
+function changeButtonLabelOnForm(form, label) {
+  const button = form.querySelector(
+    constants.validationSettings.submitButtonSelector
+  );
+  const oldLabel = button.textContent;
+  button.textContent = label;
+  return oldLabel;
+}
 
 function submitForm(evt) {
   evt.preventDefault();
@@ -15,21 +25,45 @@ function submitForm(evt) {
   closePopup(evt.target.closest(".popup"));
 }
 
+function confirmCardDelete(evt) {
+  const cardId = constants.confirmationPopup.dataset.cardId;
+  deleteCard(cardId);
+  closePopup(evt.target.closest(".popup"));
+  constants.confirmationPopup.dataset.cardId = "";
+}
+
 function submitCardForm(evt) {
-  addNewCard(constants.cardLinkInput.value, constants.cardLabelInput.value);
+  const oldButtonLabel = changeButtonLabelOnForm(evt.target, "Сохранение...");
+  saveCard(constants.cardLabelInput.value, constants.cardLinkInput.value);
   submitForm(evt);
+  changeButtonLabelOnForm(evt.target, oldButtonLabel);
 }
 
 function submitProfileForm(evt) {
-  constants.profileName.textContent = constants.profileNameInput.value;
-  constants.profileDescription.textContent =
-    constants.profileDescriptionInput.value;
+  const oldButtonLabel = changeButtonLabelOnForm(evt.target, "Сохранение...");
+  updateProfile(
+    constants.profileNameInput.value,
+    constants.profileDescriptionInput.value
+  );
   submitForm(evt);
+  changeButtonLabelOnForm(evt.target, oldButtonLabel);
 }
 
 function submitAvatarFrom(evt) {
-  constants.profileAvatarImage.src = constants.avatarLinkInput.value;
+  const oldButtonLabel = changeButtonLabelOnForm(evt.target, "Сохранение...");
+  updateAvatar(constants.avatarLinkInput.value);
   submitForm(evt);
+  changeButtonLabelOnForm(evt.target, oldButtonLabel);
+}
+
+function openConfirmationPopup(evt) {
+  console.log();
+  constants.confirmationPopup.dataset.cardId =
+    evt.target.closest(".card").dataset.cardId;
+  openPopup(constants.confirmationPopup);
+  constants.confirmationPopup
+    .querySelector(".form__action-button")
+    .addEventListener("click", confirmCardDelete);
 }
 
 function openEditAvatarWindow() {
@@ -71,6 +105,7 @@ export {
   openEditProfileWindow,
   openEditAvatarWindow,
   openAddCardWindow,
+  openConfirmationPopup,
   processClickOnPopup,
   submitCardForm,
   submitProfileForm,

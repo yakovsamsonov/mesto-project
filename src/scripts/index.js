@@ -12,6 +12,7 @@ import {
   submitProfileForm,
   submitAvatarFrom,
 } from "./modal.js";
+import { loadProfile } from "./api.js";
 
 function renderPage() {
   constants.editProfileButton.addEventListener("click", openEditProfileWindow);
@@ -23,7 +24,7 @@ function renderPage() {
   constants.cardForm.addEventListener("submit", submitCardForm);
   constants.profileForm.addEventListener("submit", submitProfileForm);
   constants.avatarForm.addEventListener("submit", submitAvatarFrom);
-
+  loadProfile();
   loadCards();
 }
 
