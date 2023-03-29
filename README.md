@@ -43,10 +43,15 @@ postcss (autoprefixer, cssnano)
 yarn run build
 ```
 
-Сборка и запуск проекта на локальном сервере:
+Сборка и запуск проекта на локальном сервере.
+Проект будет доступен на http://localhost:8080/
 
 ```
 yarn run dev
 ```
 
-Проект будет доступен на http://localhost:8080/
+Deploy в gh-pages:
+
+```
+yarn run deploy
+```
