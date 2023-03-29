@@ -14,7 +14,9 @@
   </header>
   <main class="content">
     <section class="profile">
-      <img src="<%=require('./images/Kusto.jpg')%>" alt="Кусто" class="profile__avatar">
+      <picture class="profile__avatar-box">
+        <img src="<%=require('./images/Kusto.jpg')%>" alt="Кусто" class="profile__avatar-image">
+      </picture>
       <div class="profile__info">
         <div class="profile__name-container">
           <h1 class="profile__name">Жак-Ив Кусто</h1>
@@ -53,6 +55,38 @@
       <button form="card" type="reset" class="popup__close-button"></button>
     </div>
   </section>
+  <section class="popup popup_type_edit-avatar">
+    <div class="popup__container">
+      <h2 class="popup__heading">Обновить аватар</h2>
+      <form name="avatar" id="avatar" class="form" novalidate>
+        <fieldset class="form__fieldset">
+          <label class="form__field">
+            <input type="url" class="form__input" id="avatar-link" name="avatar-link" placeholder="Ссылка на картинку"
+              required>
+            <span class="form__input-error avatar-link-error"></span>
+          </label>
+          <button type="submit" class="form__action-button">Сохранить</button>
+        </fieldset>
+      </form>
+      <button form="avatar " type="reset" class="popup__close-button"></button>
+    </div>
+  </section>
+  <section class="popup popup_type_edit-avatar">
+    <div class="popup__container">
+      <h2 class="popup__heading">Обновить аватар</h2>
+      <form name="avatar" id="avatar" class="form" novalidate>
+        <fieldset class="form__fieldset">
+          <label class="form__field">
+            <input type="url" class="form__input" id="avatar-link" name="avatar-link" placeholder="Ссылка на картинку"
+              required>
+            <span class="form__input-error avatar-link-error"></span>
+          </label>
+          <button type="submit" class="form__action-button">Сохранить</button>
+        </fieldset>
+      </form>
+      <button form="avatar" type="reset" class="popup__close-button"></button>
+    </div>
+  </section>
   <section class="popup popup_type_add-card">
     <div class="popup__container">
       <h2 class="popup__heading">Новое место</h2>
@@ -72,6 +106,13 @@
         </fieldset>
       </form>
       <button form="card" type="reset" class="popup__close-button"></button>
+    </div>
+  </section>
+  <section class="popup popup_type_confirm-delete">
+    <div class="popup__container">
+      <h2 class="popup__heading">Вы уверены?</h2>
+      <button type="submit" class="form__action-button">Да</button>
+      <button type="reset" class="popup__close-button"></button>
     </div>
   </section>
   <section class="popup fullscreen-image" aria-label="Смотреть изображение места">
