@@ -1,20 +1,28 @@
 import * as constants from "./constants.js";
-import { deleteCard, saveCard } from "./card.js";
-import { openPopup, closePopup } from "./utils.js";
-import { updateProfile, updateAvatar } from "./api.js";
+import { checkFormValidity } from "./validate.js";
 
-function changeButtonLabelOnForm(form, label) {
-  const button = form.querySelector(
-    constants.validationSettings.submitButtonSelector
-  );
-  const oldLabel = button.textContent;
-  button.textContent = label;
-  return oldLabel;
+function processKeybord(event) {
+  if (event.key == "Escape") {
+    const openedPopups = document.querySelectorAll(".popup_opened");
+    openedPopups.forEach(closePopup);
+  }
+}
+
+function openPopup(popup) {
+  const formInPopup = popup.querySelector(".form");
+  if (formInPopup) {
+    checkFormValidity(formInPopup, constants.validationSettings);
+  }
+  document.addEventListener("keydown", processKeybord);
+  popup.classList.add("popup_opened");
+}
+
+function closePopup(popup) {
+  popup.classList.remove("popup_opened");
+  document.removeEventListener("keydown", processKeybord);
 }
 
 function submitForm(evt) {
-  evt.preventDefault();
-
   const buttonElement = evt.target.querySelector(
     constants.validationSettings.submitButtonSelector
   );
@@ -25,45 +33,10 @@ function submitForm(evt) {
   closePopup(evt.target.closest(".popup"));
 }
 
-function confirmCardDelete(evt) {
-  const cardId = constants.confirmationPopup.dataset.cardId;
-  deleteCard(cardId);
-  closePopup(evt.target.closest(".popup"));
-  constants.confirmationPopup.dataset.cardId = "";
-}
-
-function submitCardForm(evt) {
-  const oldButtonLabel = changeButtonLabelOnForm(evt.target, "Сохранение...");
-  saveCard(constants.cardLabelInput.value, constants.cardLinkInput.value);
-  submitForm(evt);
-  changeButtonLabelOnForm(evt.target, oldButtonLabel);
-}
-
-function submitProfileForm(evt) {
-  const oldButtonLabel = changeButtonLabelOnForm(evt.target, "Сохранение...");
-  updateProfile(
-    constants.profileNameInput.value,
-    constants.profileDescriptionInput.value
-  );
-  submitForm(evt);
-  changeButtonLabelOnForm(evt.target, oldButtonLabel);
-}
-
-function submitAvatarFrom(evt) {
-  const oldButtonLabel = changeButtonLabelOnForm(evt.target, "Сохранение...");
-  updateAvatar(constants.avatarLinkInput.value);
-  submitForm(evt);
-  changeButtonLabelOnForm(evt.target, oldButtonLabel);
-}
-
 function openConfirmationPopup(evt) {
-  console.log();
   constants.confirmationPopup.dataset.cardId =
     evt.target.closest(".card").dataset.cardId;
   openPopup(constants.confirmationPopup);
-  constants.confirmationPopup
-    .querySelector(".form__action-button")
-    .addEventListener("click", confirmCardDelete);
 }
 
 function openEditAvatarWindow() {
@@ -71,11 +44,10 @@ function openEditAvatarWindow() {
 }
 
 function openEditProfileWindow() {
-  openPopup(constants.profilePopup);
-
   constants.profileNameInput.value = constants.profileName.textContent;
   constants.profileDescriptionInput.value =
     constants.profileDescription.textContent;
+  openPopup(constants.profilePopup);
 }
 
 function openAddCardWindow() {
@@ -83,11 +55,10 @@ function openAddCardWindow() {
 }
 
 function openCardImage(source, label) {
-  openPopup(constants.imagePopup);
-
   constants.fullscreenImagePicture.src = source;
   constants.fullscreenImagePicture.alt = label;
   constants.fullscreenImageLabel.textContent = label;
+  openPopup(constants.imagePopup);
 }
 
 function processClickOnPopup(evt) {
@@ -101,13 +72,12 @@ function processClickOnPopup(evt) {
 }
 
 export {
+  closePopup,
   openCardImage,
   openEditProfileWindow,
   openEditAvatarWindow,
   openAddCardWindow,
   openConfirmationPopup,
   processClickOnPopup,
-  submitCardForm,
-  submitProfileForm,
-  submitAvatarFrom,
+  submitForm,
 };

@@ -1,6 +1,6 @@
 import * as constants from "./constants.js";
 import { openCardImage, openConfirmationPopup } from "./modal.js";
-import { sendRequest } from "./api.js";
+import { saveLike } from "./api.js";
 
 function hasMyLike(likes) {
   return likes.some((like) => {
@@ -46,27 +46,18 @@ function createCard(card) {
   return newElement;
 }
 
-function renderCard(card) {
+function renderCard(container, card) {
   const newElement = createCard(card);
-  constants.imageContainer.prepend(newElement);
+  container.prepend(newElement);
 }
 
 function pressLikeButton(event) {
   const cardElement = event.target.closest(".card");
-  let method;
-  if (event.target.classList.contains("card__like-button_active")) {
-    method = "DELETE";
-  } else {
-    method = "PUT";
-  }
 
-  sendRequest(`/cards/likes/${cardElement.dataset.cardId}`, method)
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    })
+  saveLike(
+    cardElement.dataset.cardId,
+    event.target.classList.contains("card__like-button_active")
+  )
     .then((card) => {
       toggleLikeButton(cardElement, card.likes);
     })
@@ -75,65 +66,4 @@ function pressLikeButton(event) {
     });
 }
 
-function deleteCard(cardId) {
-  sendRequest(`/cards/${cardId}`, "DELETE")
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    })
-    .then(() => {
-      constants.imageContainer.childNodes.forEach((card) => {
-        if (cardId === card.dataset.cardId) {
-          card.remove();
-        }
-      });
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-}
-
-function loadCards() {
-  sendRequest("/cards")
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    })
-    .then((cards) => {
-      cards.forEach((item) => {
-        renderCard(item);
-      });
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-}
-
-function saveCard(name, link) {
-  const requestData = {};
-  if (name) {
-    requestData["name"] = name;
-  }
-  if (link) {
-    requestData["link"] = link;
-  }
-  sendRequest("/cards", "POST", requestData)
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    })
-    .then((card) => {
-      renderCard(card);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-}
-
-export { createCard, saveCard, loadCards, deleteCard, pressLikeButton };
+export { renderCard };
