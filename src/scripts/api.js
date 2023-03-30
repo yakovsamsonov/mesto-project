@@ -1,32 +1,11 @@
-import * as constants from "./constants.js";
-
 const login = "plus-cohort-22";
 const pword = "3BmSRqjRZYsE2r3pW6NrQ";
 const emailAddress = "plus-cohort-22@ya.ru";
 const token = "2d446760-eb73-474d-999b-cb7f739e396a";
 const serverUrl = "https://mesto.nomoreparties.co";
 
-function renderProfile(profile) {
-  constants.profileName.textContent = profile.name;
-  constants.profileDescription.textContent = profile.about;
-  constants.profileAvatarImage.src = profile.avatar;
-  constants.profileInfo.dataset.id = profile["_id"];
-}
-
 function loadProfile() {
-  return sendRequest("/users/me")
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    })
-    .then((profile) => {
-      renderProfile(profile);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  return processRequest("/users/me");
 }
 
 function updateProfile(name, description) {
@@ -37,19 +16,7 @@ function updateProfile(name, description) {
   if (description) {
     requestData["about"] = description;
   }
-  return sendRequest("/users/me", "PATCH", requestData)
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    })
-    .then((profile) => {
-      renderProfile(profile);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  return processRequest("/users/me", "PATCH", requestData);
 }
 
 function updateAvatar(avatarImageLink) {
@@ -57,19 +24,40 @@ function updateAvatar(avatarImageLink) {
   if (avatarImageLink) {
     requestData["avatar"] = avatarImageLink;
   }
-  return sendRequest("/users/me/avatar", "PATCH", requestData)
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    })
-    .then((profile) => {
-      renderProfile(profile);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  return processRequest("/users/me/avatar", "PATCH", requestData);
+}
+
+function deleteCard(cardId) {
+  return processRequest(`/cards/${cardId}`, "DELETE");
+}
+
+function loadCards() {
+  return processRequest("/cards");
+}
+
+function saveCard(name, link) {
+  const requestData = {};
+  if (name) {
+    requestData["name"] = name;
+  }
+  if (link) {
+    requestData["link"] = link;
+  }
+  return processRequest("/cards", "POST", requestData);
+}
+
+function saveLike(id, isDelete) {
+  const method = isDelete ? "DELETE" : "PUT";
+  return processRequest(`/cards/likes/${id}`, method);
+}
+
+function processRequest(endpoint, requestType, data) {
+  return sendRequest(endpoint, requestType, data).then((res) => {
+    if (res.ok) {
+      return res.json();
+    }
+    return Promise.reject(`Ошибка: ${res.status}`);
+  });
 }
 
 function sendRequest(endpoint, requestType, data) {
@@ -88,4 +76,13 @@ function sendRequest(endpoint, requestType, data) {
   return fetch(`${serverUrl}/v1/${login}${endpoint}`, request);
 }
 
-export { loadProfile, sendRequest, updateProfile, updateAvatar };
+export {
+  processRequest,
+  loadProfile,
+  updateAvatar,
+  updateProfile,
+  deleteCard,
+  loadCards,
+  saveCard,
+  saveLike,
+};

@@ -70,4 +70,23 @@ function showInputError(fieldset, input, errorMessage, validation) {
   errorElement.textContent = errorMessage;
 }
 
-export { enableValidation };
+function checkFormValidity(form, validation) {
+  const fieldsetList = Array.from(
+    form.querySelectorAll(validation.fieldsetSelector)
+  );
+  fieldsetList.forEach((fieldset) => {
+    const inputList = Array.from(
+      fieldset.querySelectorAll(validation.inputSelector)
+    );
+
+    inputList.forEach((input) => {
+      checkInputValidity(fieldset, input, validation);
+    });
+    const submitButton = fieldset.querySelector(
+      validation.submitButtonSelector
+    );
+    toggleButtonState(submitButton, inputList, validation);
+  });
+}
+
+export { enableValidation, checkFormValidity };
