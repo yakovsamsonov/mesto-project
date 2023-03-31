@@ -1,23 +1,132 @@
 import "../pages/index.css";
 
 import * as constants from "./constants.js";
-import { enableValidation } from "./validate.js";
+import { enableValidation, checkFormValidity } from "./validate.js";
 import { renderCard } from "./card.js";
 import { renderProfile } from "./profile.js";
-import {
-  openEditProfileWindow,
-  openAddCardWindow,
-  openEditAvatarWindow,
-  processClickOnPopup,
-} from "./modal.js";
+import { closePopup, openPopup } from "./modal.js";
 
 import {
-  confirmCardDelete,
-  submitCardForm,
-  submitProfileForm,
-  submitAvatarFrom,
-} from "./utils.js";
-import { loadProfile, loadCards } from "./api.js";
+  loadProfile,
+  loadCards,
+  deleteCard,
+  saveCard,
+  updateAvatar,
+  updateProfile,
+} from "./api.js";
+
+function submitForm(evt) {
+  evt.target.reset();
+  closePopup(evt.target.closest(".popup"));
+}
+
+function openEditAvatarWindow() {
+  const popup = constants.avatarPopup;
+  checkFormValidity(popup.querySelector(".form"), constants.validationSettings);
+  openPopup(popup);
+}
+
+function openEditProfileWindow() {
+  constants.profileNameInput.value = constants.profileName.textContent;
+  constants.profileDescriptionInput.value =
+    constants.profileDescription.textContent;
+  const popup = constants.profilePopup;
+  checkFormValidity(popup.querySelector(".form"), constants.validationSettings);
+  openPopup(popup);
+}
+
+function openAddCardWindow() {
+  const popup = constants.cardPopup;
+  checkFormValidity(popup.querySelector(".form"), constants.validationSettings);
+  openPopup(popup);
+}
+
+function processClickOnPopup(evt) {
+  const eventElementClasses = evt.target.classList;
+  if (
+    eventElementClasses.contains("popup__close-button") ||
+    eventElementClasses.contains("popup")
+  ) {
+    closePopup(evt.currentTarget);
+  }
+}
+
+function changeButtonLabelOnPopup(form, label) {
+  const button = form.querySelector(
+    constants.validationSettings.submitButtonSelector
+  );
+  const oldLabel = button.textContent;
+  button.textContent = label;
+  return oldLabel;
+}
+
+function confirmCardDelete(evt) {
+  const cardId = constants.confirmationPopup.dataset.cardId;
+  deleteCard(cardId)
+    .then(() => {
+      constants.imageContainer.childNodes.forEach((card) => {
+        if (cardId === card.dataset.cardId) {
+          card.remove();
+        }
+      });
+      closePopup(evt.target.closest(".popup"));
+      constants.confirmationPopup.dataset.cardId = "";
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}
+
+function submitCardForm(evt) {
+  evt.preventDefault();
+  const oldButtonLabel = changeButtonLabelOnPopup(evt.target, "Сохранение...");
+  saveCard(constants.cardLabelInput.value, constants.cardLinkInput.value)
+    .then((card) => {
+      renderCard(constants.imageContainer, card);
+      submitForm(evt);
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+    .finally(() => {
+      changeButtonLabelOnPopup(evt.target, oldButtonLabel);
+    });
+}
+
+function submitProfileForm(evt) {
+  evt.preventDefault();
+  const oldButtonLabel = changeButtonLabelOnPopup(evt.target, "Сохранение...");
+  updateProfile(
+    constants.profileNameInput.value,
+    constants.profileDescriptionInput.value
+  )
+    .then((profile) => {
+      renderProfile(profile);
+      submitForm(evt);
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+    .finally(() => {
+      changeButtonLabelOnPopup(evt.target, oldButtonLabel);
+    });
+}
+
+function submitAvatarFrom(evt) {
+  evt.preventDefault();
+  const oldButtonLabel = changeButtonLabelOnPopup(evt.target, "Сохранение...");
+  updateAvatar(constants.avatarLinkInput.value)
+    .then((profile) => {
+      renderProfile(profile);
+      submitForm(evt);
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+    .finally(() => {
+      changeButtonLabelOnPopup(evt.target, oldButtonLabel);
+    });
+}
 
 function renderPage() {
   constants.editProfileButton.addEventListener("click", openEditProfileWindow);
