@@ -1,6 +1,19 @@
 import * as constants from "./constants.js";
-import { openCardImage, openConfirmationPopup } from "./modal.js";
 import { saveLike } from "./api.js";
+import { openPopup } from "./modal.js";
+
+function openConfirmationPopup(evt) {
+  const popup = constants.confirmationPopup;
+  popup.dataset.cardId = evt.target.closest(".card").dataset.cardId;
+  openPopup(popup);
+}
+
+function openCardImage(source, label) {
+  constants.fullscreenImagePicture.src = source;
+  constants.fullscreenImagePicture.alt = label;
+  constants.fullscreenImageLabel.textContent = label;
+  openPopup(constants.imagePopup);
+}
 
 function hasMyLike(likes) {
   return likes.some((like) => {
