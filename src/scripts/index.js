@@ -1,8 +1,8 @@
 import "../pages/index.css";
 
 import * as constants from "./constants.js";
-import { enableValidation, checkFormValidity } from "./validate.js";
-import { renderCard } from "./card.js";
+import { enableValidation, hideFormErrors } from "./validate.js";
+import { renderCardFirst, renderCardLast } from "./card.js";
 import { renderProfile } from "./profile.js";
 import { closePopup, openPopup } from "./modal.js";
 
@@ -22,7 +22,7 @@ function submitForm(evt) {
 
 function openEditAvatarWindow() {
   const popup = constants.avatarPopup;
-  checkFormValidity(popup.querySelector(".form"), constants.validationSettings);
+  hideFormErrors(popup.querySelector(".form"), constants.validationSettings);
   openPopup(popup);
 }
 
@@ -31,13 +31,13 @@ function openEditProfileWindow() {
   constants.profileDescriptionInput.value =
     constants.profileDescription.textContent;
   const popup = constants.profilePopup;
-  checkFormValidity(popup.querySelector(".form"), constants.validationSettings);
+  hideFormErrors(popup.querySelector(".form"), constants.validationSettings);
   openPopup(popup);
 }
 
 function openAddCardWindow() {
   const popup = constants.cardPopup;
-  checkFormValidity(popup.querySelector(".form"), constants.validationSettings);
+  hideFormErrors(popup.querySelector(".form"), constants.validationSettings);
   openPopup(popup);
 }
 
@@ -82,7 +82,7 @@ function submitCardForm(evt) {
   const oldButtonLabel = changeButtonLabelOnPopup(evt.target, "Сохранение...");
   saveCard(constants.cardLabelInput.value, constants.cardLinkInput.value)
     .then((card) => {
-      renderCard(constants.imageContainer, card);
+      renderCardFirst(constants.imageContainer, card);
       submitForm(evt);
     })
     .catch((err) => {
@@ -146,7 +146,7 @@ function renderPage() {
     .then((results) => {
       renderProfile(results[0]);
       results[1].forEach((item) => {
-        renderCard(constants.imageContainer, item);
+        renderCardLast(constants.imageContainer, item);
       });
     })
     .catch((err) => {

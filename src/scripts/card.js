@@ -59,9 +59,14 @@ function createCard(card) {
   return newElement;
 }
 
-function renderCard(container, card) {
+function renderCardFirst(container, card) {
   const newElement = createCard(card);
   container.prepend(newElement);
+}
+
+function renderCardLast(container, card) {
+  const newElement = createCard(card);
+  container.append(newElement);
 }
 
 function pressLikeButton(event) {
@@ -79,4 +84,4 @@ function pressLikeButton(event) {
     });
 }
 
-export { renderCard };
+export { renderCardFirst, renderCardLast };

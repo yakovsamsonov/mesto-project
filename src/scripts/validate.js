@@ -70,7 +70,7 @@ function showInputError(fieldset, input, errorMessage, validation) {
   errorElement.textContent = errorMessage;
 }
 
-function checkFormValidity(form, validation) {
+function hideFormErrors(form, validation) {
   const fieldsetList = Array.from(
     form.querySelectorAll(validation.fieldsetSelector)
   );
@@ -80,7 +80,7 @@ function checkFormValidity(form, validation) {
     );
 
     inputList.forEach((input) => {
-      checkInputValidity(fieldset, input, validation);
+      hideInputError(fieldset, input, validation);
     });
     const submitButton = fieldset.querySelector(
       validation.submitButtonSelector
@@ -89,4 +89,4 @@ function checkFormValidity(form, validation) {
   });
 }
 
-export { enableValidation, checkFormValidity };
+export { enableValidation, hideFormErrors };
