@@ -1,87 +1,83 @@
-import * as constants from "./constants.js";
-import { saveLike } from "./api.js";
-import { openPopup } from "./modal.js";
-
-function openConfirmationPopup(evt) {
-  const popup = constants.confirmationPopup;
-  popup.dataset.cardId = evt.target.closest(".card").dataset.cardId;
-  openPopup(popup);
-}
-
-function openCardImage(source, label) {
-  constants.fullscreenImagePicture.src = source;
-  constants.fullscreenImagePicture.alt = label;
-  constants.fullscreenImageLabel.textContent = label;
-  openPopup(constants.imagePopup);
-}
-
-function hasMyLike(likes) {
-  return likes.some((like) => {
-    return like["_id"] === constants.profileInfo.dataset.id;
-  });
-}
-
-function toggleLikeButton(card, likes) {
-  const likeButton = card.querySelector(".card__like-button");
-  if (hasMyLike(likes)) {
-    likeButton.classList.add("card__like-button_active");
-  } else {
-    likeButton.classList.remove("card__like-button_active");
+export class CardPrototype {
+  constructor({ pressLike, deleteCard, openCard }, selector) {
+    this.pressLike = pressLike;
+    this.deleteCard = deleteCard;
+    this.openCard = openCard;
+    this.selector = selector;
   }
-  likeButton.dataset.likesCount = likes.length;
 }
 
-function createCard(card) {
-  const cardTemplate = document.querySelector("#card-template").content;
-  const newElement = cardTemplate.querySelector(".card").cloneNode(true);
-  const cardItemPhoto = newElement.querySelector(".card__item-photo");
-  const cardItemLabel = newElement.querySelector(".card__item-label");
-  const deleteButton = newElement.querySelector(".card__delete-button");
-  const likeButton = newElement.querySelector(".card__like-button");
-  newElement.dataset.cardId = card["_id"];
-
-  if (constants.profileInfo.dataset.id !== card.owner["_id"]) {
-    deleteButton.remove();
-  } else {
-    deleteButton.addEventListener("click", openConfirmationPopup);
+export class Card {
+  constructor(
+    { _id, name, link, likes, owner },
+    { pressLike, deleteCard, openCard, selector }
+  ) {
+    this._selector = selector;
+    this._id = _id;
+    this._name = name;
+    this._link = link;
+    this._owner = owner;
+    this._setLikes(likes);
+    this._pressLike = pressLike.bind(this);
+    this._deleteCard = deleteCard.bind(this);
+    this._openCard = openCard.bind(this);
   }
 
-  cardItemPhoto.src = card.link;
-  cardItemPhoto.alt = card.name;
-  cardItemLabel.textContent = card.name;
+  get element() {
+    return this._element;
+  }
 
-  toggleLikeButton(newElement, card.likes);
+  _setElement() {
+    this._element = document
+      .querySelector(this._selector)
+      .content.querySelector(".card")
+      .cloneNode(true);
+  }
 
-  likeButton.addEventListener("click", pressLikeButton);
-  cardItemPhoto.addEventListener("click", () =>
-    openCardImage(card.link, card.name)
-  );
-  return newElement;
-}
+  createCard(userId) {
+    this._setElement();
+    const cardItemPhoto = this._element.querySelector(".card__item-photo");
+    const cardItemLabel = this._element.querySelector(".card__item-label");
+    const deleteButton = this._element.querySelector(".card__delete-button");
+    this._likeButton = this._element.querySelector(".card__like-button");
+    this._element.dataset.cardId = this._id;
 
-function renderCardFirst(container, card) {
-  const newElement = createCard(card);
-  container.prepend(newElement);
-}
+    cardItemPhoto.src = this._link;
+    cardItemPhoto.alt = this._name;
+    cardItemLabel.textContent = this._name;
 
-function renderCardLast(container, card) {
-  const newElement = createCard(card);
-  container.append(newElement);
-}
+    if (this._owner["_id"] === userId) {
+      deleteButton.addEventListener("click", this._deleteCard);
+    } else {
+      deleteButton.remove();
+    }
 
-function pressLikeButton(event) {
-  const cardElement = event.target.closest(".card");
+    this.toggleLikeButton(this._likes, userId);
+    this._likeButton.addEventListener("click", this._pressLike);
+    cardItemPhoto.addEventListener("click", this._openCard);
+  }
 
-  saveLike(
-    cardElement.dataset.cardId,
-    event.target.classList.contains("card__like-button_active")
-  )
-    .then((card) => {
-      toggleLikeButton(cardElement, card.likes);
-    })
-    .catch((err) => {
-      console.log(err);
+  hasUserLike(userId) {
+    return this._likes.some((like) => {
+      return like["_id"] === userId;
     });
-}
+  }
 
-export { renderCardFirst, renderCardLast };
+  toggleLikeButton(likes, userId) {
+    this._setLikes(likes);
+    if (this.hasUserLike(userId)) {
+      this._likeButton.classList.add("card__like-button_active");
+    } else {
+      this._likeButton.classList.remove("card__like-button_active");
+    }
+    this._likeButton.dataset.likesCount = this._likes.length;
+  }
+
+  getCardId() {
+    return this._id;
+  }
+
+  _setLikes(likes) {
+    this._likes = likes;
+  }
+}
