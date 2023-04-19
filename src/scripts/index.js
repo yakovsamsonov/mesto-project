@@ -3,7 +3,7 @@ import "../pages/index.css";
 import * as constants from "./constants.js";
 import { enableValidation, hideFormErrors } from "./validate.js";
 import { Card, CardPrototype } from "./card.js";
-import { renderProfile } from "./profile.js";
+import UserInfo from "./profile.js";
 import { closePopup, openPopup } from "./modal.js";
 import Section from "./section.js";
 
@@ -29,9 +29,8 @@ function openEditAvatarWindow() {
 }
 
 function openEditProfileWindow() {
-  constants.profileNameInput.value = constants.profileName.textContent;
-  constants.profileDescriptionInput.value =
-    constants.profileDescription.textContent;
+  constants.profileNameInput.value = userInfo.name;
+  constants.profileDescriptionInput.value = userInfo.about;
   const popup = constants.profilePopup;
   hideFormErrors(popup.querySelector(".form"), constants.validationSettings);
   openPopup(popup);
@@ -64,9 +63,9 @@ function changeButtonLabelOnPopup(form, label) {
 
 function confirmCardDelete(evt) {
   const cardId = constants.confirmationPopup.dataset.cardId;
-  deleteCard(cardId)
+  cardPrototype
+    .deleteCard(cardId)
     .then(() => {
-      imageSection.remove(cardId);
       closePopup(evt.target.closest(".popup"));
       constants.confirmationPopup.dataset.cardId = "";
     })
@@ -78,11 +77,16 @@ function confirmCardDelete(evt) {
 function submitCardForm(evt) {
   evt.preventDefault();
   const oldButtonLabel = changeButtonLabelOnPopup(evt.target, "Сохранение...");
-  saveCard(constants.cardLabelInput.value, constants.cardLinkInput.value)
-    .then((card) => {
-      const cardElement = new Card(card, cardPrototype);
-      cardElement.createCard(constants.profileInfo.dataset.id);
-      imageSection.addToStart(cardElement.element);
+  const card = new Card(
+    {
+      name: constants.cardLabelInput.value,
+      link: constants.cardLinkInput.value,
+    },
+    cardPrototype
+  );
+  card
+    .saveCard()
+    .then(() => {
       submitForm(evt);
     })
     .catch((err) => {
@@ -96,12 +100,12 @@ function submitCardForm(evt) {
 function submitProfileForm(evt) {
   evt.preventDefault();
   const oldButtonLabel = changeButtonLabelOnPopup(evt.target, "Сохранение...");
-  updateProfile(
-    constants.profileNameInput.value,
-    constants.profileDescriptionInput.value
-  )
-    .then((profile) => {
-      renderProfile(profile);
+  userInfo
+    .setUserInfo({
+      name: constants.profileNameInput.value,
+      about: constants.profileDescriptionInput.value,
+    })
+    .then(() => {
       submitForm(evt);
     })
     .catch((err) => {
@@ -115,9 +119,9 @@ function submitProfileForm(evt) {
 function submitAvatarFrom(evt) {
   evt.preventDefault();
   const oldButtonLabel = changeButtonLabelOnPopup(evt.target, "Сохранение...");
-  updateAvatar(constants.avatarLinkInput.value)
-    .then((profile) => {
-      renderProfile(profile);
+  userInfo
+    .setUserInfo({ avatar: constants.avatarLinkInput.value })
+    .then(() => {
       submitForm(evt);
     })
     .catch((err) => {
@@ -141,30 +145,57 @@ constants.confirmationPopup
   .querySelector(".form__action-button")
   .addEventListener("click", confirmCardDelete);
 
+const userInfo = new UserInfo(
+  {
+    nameSelector: ".profile__name",
+    descriptionSelector: ".profile__description",
+    avatarSelector: ".profile__avatar-image",
+  },
+  {
+    loadProfile: () => {
+      return loadProfile();
+    },
+    updateProfile: (newName, newDescription) => {
+      return updateProfile(newName, newDescription);
+    },
+    updateAvatar: (newAvatar) => {
+      return updateAvatar(newAvatar);
+    },
+  }
+);
+
 const cardPrototype = new CardPrototype(
   {
-    pressLike: function () {
-      saveLike(
-        this.getCardId(),
-        this.hasUserLike(constants.profileInfo.dataset.id)
-      )
+    handleLikeClick: function () {
+      saveLike(this.cardId, this.hasUserLike(userInfo.userId))
         .then((data) => {
-          this.toggleLikeButton(data.likes, constants.profileInfo.dataset.id);
+          this.toggleLikeButton(data.likes, userInfo.userId);
         })
         .catch((err) => {
           console.log(err);
         });
     },
-    deleteCard: function () {
+    handleDeleteClick: function () {
       const popup = constants.confirmationPopup;
-      popup.dataset.cardId = this._id;
+      popup.dataset.cardId = this.cardId;
       openPopup(popup);
     },
-    openCard: function () {
+    handleCardClick: function () {
       constants.fullscreenImagePicture.src = this._link;
       constants.fullscreenImagePicture.alt = this._name;
       constants.fullscreenImageLabel.textContent = this._name;
       openPopup(constants.imagePopup);
+    },
+    deleteCard: (cardId) => {
+      return deleteCard(cardId).then(() => {
+        imageSection.remove(cardId);
+      });
+    },
+    saveCard: function (newLabel, newImage) {
+      return saveCard(newLabel, newImage).then((card) => {
+        this.enrichCard(card, userInfo.userId);
+        imageSection.addItemToStart(this.element);
+      });
     },
   },
   "#card-template"
@@ -172,17 +203,20 @@ const cardPrototype = new CardPrototype(
 
 const imageSection = new Section({
   renderer: (item) => {
-    const cardElement = new Card(item, cardPrototype);
-    cardElement.createCard(constants.profileInfo.dataset.id);
-    imageSection.addToEnd(cardElement.element);
+    const card = new Card({}, cardPrototype);
+    card.enrichCard(item, userInfo.userId);
+    imageSection.addItemToEnd(card.element);
   },
-  container: constants.imageContainer,
+  loadCards: () => {
+    return loadCards();
+  },
+  selector: ".elements",
 });
 
-Promise.all([loadProfile(), loadCards()])
-  .then((results) => {
-    renderProfile(results[0]);
-    imageSection.renderItems(results[1]);
+Promise.all([userInfo.getUserInfo(), imageSection.getCards()])
+  .then(() => {
+    userInfo.renderProfile();
+    imageSection.renderItems();
   })
   .catch((err) => {
     console.log(err);

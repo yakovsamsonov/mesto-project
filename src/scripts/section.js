@@ -1,14 +1,16 @@
 export default class Section {
-  constructor({ renderer, container }) {
-    this._container = container;
+  constructor({ renderer, loadCards, selector }) {
+    this._container = document.querySelector(selector);
     this._renderer = renderer;
+    this._loadCards = loadCards;
+    this._data = [];
   }
 
-  addToStart(item) {
+  addItemToStart(item) {
     this._container.prepend(item);
   }
 
-  addToEnd(item) {
+  addItemToEnd(item) {
     this._container.append(item);
   }
 
@@ -24,10 +26,16 @@ export default class Section {
     this._container.innerHTML = "";
   }
 
-  renderItems(data) {
+  getCards() {
+    return this._loadCards().then((data) => {
+      this._data = data;
+    });
+  }
+
+  renderItems() {
     this._clear();
 
-    data.forEach((item) => {
+    this._data.forEach((item) => {
       this._renderer(item);
     });
   }

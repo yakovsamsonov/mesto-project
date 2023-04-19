@@ -1,18 +1,10 @@
 export const profileAvatar = document.querySelector(".profile__avatar-box");
-export const profileAvatarImage = document.querySelector(
-  ".profile__avatar-image"
-);
+
 export const editProfileButton = document.querySelector(
   ".profile__edit-button"
 );
 export const addNewCardButton = document.querySelector(
   ".profile__add-card-button"
-);
-export const imageContainer = document.querySelector(".elements");
-export const profileInfo = document.querySelector(".profile__info");
-export const profileName = document.querySelector(".profile__name");
-export const profileDescription = document.querySelector(
-  ".profile__description"
 );
 export const popups = document.querySelectorAll(".popup");
 export const profilePopup = document.querySelector(".popup_type_edit-profile");
