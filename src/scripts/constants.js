@@ -20,3 +20,4 @@ export const validationSettings = {
   inputErrorClass: "form__input_type_error",
   errorClass: "form__input-error_visible",
 };
+
