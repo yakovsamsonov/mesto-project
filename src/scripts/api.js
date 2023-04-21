@@ -1,13 +1,4 @@
 import { apiconfig } from './constants.js'
-export const apiconfig = {
-  baseUrl: 'https://nomoreparties.co/v1/plus-cohort-22',
-  headers: {
-    authorization: '2d446760-eb73-474d-999b-cb7f739e396a',
-    'Content-Type': 'application/json'
-  },
-  id: "3BmSRqjRZYsE2r3pW6NrQ",
-  emailAddress: "plus-cohort-22@ya.ru"
-}
 
 function checkResponse(response) {
   if (response.ok) {
