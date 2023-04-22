@@ -6,6 +6,7 @@ import { Card, CardPrototype } from "./card.js";
 import UserInfo from "./profile.js";
 import { closePopup, openPopup } from "./modal.js";
 import Section from "./section.js";
+import PopupWithImage from "./PopupWithImage";
 
 import {
   loadProfile,
@@ -40,16 +41,6 @@ function openAddCardWindow() {
   const popup = constants.cardPopup;
   hideFormErrors(popup.querySelector(".form"), constants.validationSettings);
   openPopup(popup);
-}
-
-function processClickOnPopup(evt) {
-  const eventElementClasses = evt.target.classList;
-  if (
-    eventElementClasses.contains("popup__close-button") ||
-    eventElementClasses.contains("popup")
-  ) {
-    closePopup(evt.currentTarget);
-  }
 }
 
 function changeButtonLabelOnPopup(form, label) {
@@ -135,9 +126,6 @@ function submitAvatarFrom(evt) {
 constants.editProfileButton.addEventListener("click", openEditProfileWindow);
 constants.addNewCardButton.addEventListener("click", openAddCardWindow);
 constants.profileAvatar.addEventListener("click", openEditAvatarWindow);
-constants.popups.forEach((popup) => {
-  popup.addEventListener("click", processClickOnPopup);
-});
 constants.cardForm.addEventListener("submit", submitCardForm);
 constants.profileForm.addEventListener("submit", submitProfileForm);
 constants.avatarForm.addEventListener("submit", submitAvatarFrom);
@@ -164,6 +152,9 @@ const userInfo = new UserInfo(
   }
 );
 
+const imagePopup = new PopupWithImage(".fullscreen-image");
+imagePopup.setEventListeners();
+
 const cardPrototype = new CardPrototype(
   {
     handleLikeClick: function () {
@@ -181,10 +172,7 @@ const cardPrototype = new CardPrototype(
       openPopup(popup);
     },
     handleCardClick: function () {
-      constants.fullscreenImagePicture.src = this._link;
-      constants.fullscreenImagePicture.alt = this._name;
-      constants.fullscreenImageLabel.textContent = this._name;
-      openPopup(constants.imagePopup);
+      imagePopup.open(this._link, this._name);
     },
     deleteCard: (cardId) => {
       return deleteCard(cardId).then(() => {

@@ -6,21 +6,14 @@ export const editProfileButton = document.querySelector(
 export const addNewCardButton = document.querySelector(
   ".profile__add-card-button"
 );
-export const popups = document.querySelectorAll(".popup");
+
 export const profilePopup = document.querySelector(".popup_type_edit-profile");
 export const cardPopup = document.querySelector(".popup_type_add-card");
 export const avatarPopup = document.querySelector(".popup_type_edit-avatar");
 export const confirmationPopup = document.querySelector(
   ".popup_type_confirm-delete"
 );
-export const imagePopup = document.querySelector(".fullscreen-image");
-export const fullscreenImagePicture = imagePopup.querySelector(
-  ".fullscreen-image__picture"
-);
 
-export const fullscreenImageLabel = imagePopup.querySelector(
-  ".fullscreen-image__label"
-);
 export const profileForm = document.forms["profile"];
 export const profileNameInput = profileForm["name"];
 export const profileDescriptionInput = profileForm["description"];
