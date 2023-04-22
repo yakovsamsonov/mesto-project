@@ -60,7 +60,7 @@ function confirmCardDelete(evt) {
 }
 
 function submitCardForm({ label, link }) {
-  const oldButtonLabel = cardPopup.setButtonLabel("Сохранение...");
+  const oldButtonLabel = this.setButtonLabel("Сохранение...");
   const card = new Card(
     {
       name: label,
@@ -70,12 +70,12 @@ function submitCardForm({ label, link }) {
   );
   card
     .saveCard()
-    .then(() => cardPopup.close())
+    .then(() => this.close())
     .catch((err) => {
       console.log(err);
     })
     .finally(() => {
-      cardPopup.setButtonLabel(oldButtonLabel);
+      this.setButtonLabel(oldButtonLabel);
     });
 }
 
@@ -99,15 +99,15 @@ function submitProfileForm(evt) {
 }
 
 function submitAvatarFrom(inputValues) {
-  const oldButtonLabel = avatarPopup.setButtonLabel("Сохранение...");
+  const oldButtonLabel = this.setButtonLabel("Сохранение...");
   userInfo
     .setUserInfo({ avatar: inputValues["avatar-link"] })
-    .then(() => avatarPopup.close())
+    .then(() => this.close())
     .catch((err) => {
       console.log(err);
     })
     .finally(() => {
-      avatarPopup.setButtonLabel(oldButtonLabel);
+      this.setButtonLabel(oldButtonLabel);
     });
 }
 
