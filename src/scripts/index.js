@@ -126,16 +126,9 @@ const userInfo = new UserInfo(
 );
 
 const cardPopup = new PopupWithForm(".popup_type_add-card", submitCardForm);
-cardPopup.setEventListeners();
-
 const avatarPopup = new PopupWithForm(".popup_type_edit-avatar", submitAvatarFrom);
-avatarPopup.setEventListeners();
-
 const profilePopup = new PopupWithForm(".popup_type_edit-profile", submitProfileForm);
-profilePopup.setEventListeners();
-
 const imagePopup = new PopupWithImage(".fullscreen-image");
-imagePopup.setEventListeners();
 
 const cardPrototype = new CardPrototype(
   {
@@ -193,3 +186,7 @@ Promise.all([userInfo.getUserInfo(), imageSection.getCards()])
   });
 
 enableValidation(constants.validationSettings);
+cardPopup.setEventListeners();
+avatarPopup.setEventListeners();
+profilePopup.setEventListeners();
+imagePopup.setEventListeners();
