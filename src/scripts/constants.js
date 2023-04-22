@@ -8,7 +8,6 @@ export const addNewCardButton = document.querySelector(
 );
 
 export const profilePopup = document.querySelector(".popup_type_edit-profile");
-export const cardPopup = document.querySelector(".popup_type_add-card");
 export const avatarPopup = document.querySelector(".popup_type_edit-avatar");
 export const confirmationPopup = document.querySelector(
   ".popup_type_confirm-delete"
@@ -18,8 +17,6 @@ export const profileForm = document.forms["profile"];
 export const profileNameInput = profileForm["name"];
 export const profileDescriptionInput = profileForm["description"];
 export const cardForm = document.forms["card"];
-export const cardLabelInput = cardForm["label"];
-export const cardLinkInput = cardForm["link"];
 export const avatarForm = document.forms["avatar"];
 export const avatarLinkInput = avatarForm["avatar-link"];
 

@@ -17,11 +17,7 @@ import {
   updateAvatar,
   updateProfile,
 } from "./api.js";
-
-function submitForm(evt) {
-  evt.target.reset();
-  closePopup(evt.target.closest(".popup"));
-}
+import PopupWithForm from "./PopupWithForm";
 
 function openEditAvatarWindow() {
   const popup = constants.avatarPopup;
@@ -38,9 +34,8 @@ function openEditProfileWindow() {
 }
 
 function openAddCardWindow() {
-  const popup = constants.cardPopup;
-  hideFormErrors(popup.querySelector(".form"), constants.validationSettings);
-  openPopup(popup);
+  hideFormErrors(constants.cardForm, constants.validationSettings);
+  cardPopup.open();
 }
 
 function changeButtonLabelOnPopup(form, label) {
@@ -65,26 +60,23 @@ function confirmCardDelete(evt) {
     });
 }
 
-function submitCardForm(evt) {
-  evt.preventDefault();
-  const oldButtonLabel = changeButtonLabelOnPopup(evt.target, "Сохранение...");
+function submitCardForm({ label, link }) {
+  const oldButtonLabel = cardPopup.setButtonLabel("Сохранение...");
   const card = new Card(
     {
-      name: constants.cardLabelInput.value,
-      link: constants.cardLinkInput.value,
+      name: label,
+      link: link,
     },
     cardPrototype
   );
   card
     .saveCard()
-    .then(() => {
-      submitForm(evt);
-    })
+    .then(() => cardPopup.close())
     .catch((err) => {
       console.log(err);
     })
     .finally(() => {
-      changeButtonLabelOnPopup(evt.target, oldButtonLabel);
+      cardPopup.setButtonLabel(oldButtonLabel);
     });
 }
 
@@ -126,7 +118,6 @@ function submitAvatarFrom(evt) {
 constants.editProfileButton.addEventListener("click", openEditProfileWindow);
 constants.addNewCardButton.addEventListener("click", openAddCardWindow);
 constants.profileAvatar.addEventListener("click", openEditAvatarWindow);
-constants.cardForm.addEventListener("submit", submitCardForm);
 constants.profileForm.addEventListener("submit", submitProfileForm);
 constants.avatarForm.addEventListener("submit", submitAvatarFrom);
 constants.confirmationPopup
@@ -151,6 +142,9 @@ const userInfo = new UserInfo(
     },
   }
 );
+
+const cardPopup = new PopupWithForm(".popup_type_add-card", submitCardForm);
+cardPopup.setEventListeners();
 
 const imagePopup = new PopupWithImage(".fullscreen-image");
 imagePopup.setEventListeners();
