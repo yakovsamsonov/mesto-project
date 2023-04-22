@@ -7,12 +7,11 @@ export const addNewCardButton = document.querySelector(
   ".profile__add-card-button"
 );
 
-export const profilePopup = document.querySelector(".popup_type_edit-profile");
 export const confirmationPopup = document.querySelector(
   ".popup_type_confirm-delete"
 );
 
-export const profileForm = document.forms["profile"];
+const profileForm = document.forms["profile"];
 export const profileNameInput = profileForm["name"];
 export const profileDescriptionInput = profileForm["description"];
 

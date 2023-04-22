@@ -7,6 +7,7 @@ import UserInfo from "./profile.js";
 import { closePopup, openPopup } from "./modal.js";
 import Section from "./section.js";
 import PopupWithImage from "./PopupWithImage";
+import PopupWithForm from "./PopupWithForm";
 
 import {
   loadProfile,
@@ -17,7 +18,6 @@ import {
   updateAvatar,
   updateProfile,
 } from "./api.js";
-import PopupWithForm from "./PopupWithForm";
 
 function openEditAvatarWindow() {
   hideFormErrors(avatarPopup.form, constants.validationSettings);
@@ -27,23 +27,13 @@ function openEditAvatarWindow() {
 function openEditProfileWindow() {
   constants.profileNameInput.value = userInfo.name;
   constants.profileDescriptionInput.value = userInfo.about;
-  const popup = constants.profilePopup;
-  hideFormErrors(popup.querySelector(".form"), constants.validationSettings);
-  openPopup(popup);
+  hideFormErrors(profilePopup.form, constants.validationSettings);
+  profilePopup.open();
 }
 
 function openAddCardWindow() {
   hideFormErrors(cardPopup.form, constants.validationSettings);
   cardPopup.open();
-}
-
-function changeButtonLabelOnPopup(form, label) {
-  const button = form.querySelector(
-    constants.validationSettings.submitButtonSelector
-  );
-  const oldLabel = button.textContent;
-  button.textContent = label;
-  return oldLabel;
 }
 
 function confirmCardDelete(evt) {
@@ -79,22 +69,19 @@ function submitCardForm({ label, link }) {
     });
 }
 
-function submitProfileForm(evt) {
-  evt.preventDefault();
-  const oldButtonLabel = changeButtonLabelOnPopup(evt.target, "Сохранение...");
+function submitProfileForm({ name, description }) {
+  const oldButtonLabel = this.setButtonLabel("Сохранение...");
   userInfo
     .setUserInfo({
-      name: constants.profileNameInput.value,
-      about: constants.profileDescriptionInput.value,
+      name: name,
+      about: description,
     })
-    .then(() => {
-      submitForm(evt);
-    })
+    .then(() => this.close())
     .catch((err) => {
       console.log(err);
     })
     .finally(() => {
-      changeButtonLabelOnPopup(evt.target, oldButtonLabel);
+      this.setButtonLabel(oldButtonLabel);
     });
 }
 
@@ -114,7 +101,6 @@ function submitAvatarFrom(inputValues) {
 constants.editProfileButton.addEventListener("click", openEditProfileWindow);
 constants.addNewCardButton.addEventListener("click", openAddCardWindow);
 constants.profileAvatar.addEventListener("click", openEditAvatarWindow);
-constants.profileForm.addEventListener("submit", submitProfileForm);
 
 constants.confirmationPopup
   .querySelector(".form__action-button")
@@ -144,6 +130,9 @@ cardPopup.setEventListeners();
 
 const avatarPopup = new PopupWithForm(".popup_type_edit-avatar", submitAvatarFrom);
 avatarPopup.setEventListeners();
+
+const profilePopup = new PopupWithForm(".popup_type_edit-profile", submitProfileForm);
+profilePopup.setEventListeners();
 
 const imagePopup = new PopupWithImage(".fullscreen-image");
 imagePopup.setEventListeners();
