@@ -20,9 +20,8 @@ import {
 import PopupWithForm from "./PopupWithForm";
 
 function openEditAvatarWindow() {
-  const popup = constants.avatarPopup;
-  hideFormErrors(popup.querySelector(".form"), constants.validationSettings);
-  openPopup(popup);
+  hideFormErrors(avatarPopup.form, constants.validationSettings);
+  avatarPopup.open();
 }
 
 function openEditProfileWindow() {
@@ -34,7 +33,7 @@ function openEditProfileWindow() {
 }
 
 function openAddCardWindow() {
-  hideFormErrors(constants.cardForm, constants.validationSettings);
+  hideFormErrors(cardPopup.form, constants.validationSettings);
   cardPopup.open();
 }
 
@@ -99,19 +98,16 @@ function submitProfileForm(evt) {
     });
 }
 
-function submitAvatarFrom(evt) {
-  evt.preventDefault();
-  const oldButtonLabel = changeButtonLabelOnPopup(evt.target, "Сохранение...");
+function submitAvatarFrom(inputValues) {
+  const oldButtonLabel = avatarPopup.setButtonLabel("Сохранение...");
   userInfo
-    .setUserInfo({ avatar: constants.avatarLinkInput.value })
-    .then(() => {
-      submitForm(evt);
-    })
+    .setUserInfo({ avatar: inputValues["avatar-link"] })
+    .then(() => avatarPopup.close())
     .catch((err) => {
       console.log(err);
     })
     .finally(() => {
-      changeButtonLabelOnPopup(evt.target, oldButtonLabel);
+      avatarPopup.setButtonLabel(oldButtonLabel);
     });
 }
 
@@ -119,7 +115,7 @@ constants.editProfileButton.addEventListener("click", openEditProfileWindow);
 constants.addNewCardButton.addEventListener("click", openAddCardWindow);
 constants.profileAvatar.addEventListener("click", openEditAvatarWindow);
 constants.profileForm.addEventListener("submit", submitProfileForm);
-constants.avatarForm.addEventListener("submit", submitAvatarFrom);
+
 constants.confirmationPopup
   .querySelector(".form__action-button")
   .addEventListener("click", confirmCardDelete);
@@ -145,6 +141,9 @@ const userInfo = new UserInfo(
 
 const cardPopup = new PopupWithForm(".popup_type_add-card", submitCardForm);
 cardPopup.setEventListeners();
+
+const avatarPopup = new PopupWithForm(".popup_type_edit-avatar", submitAvatarFrom);
+avatarPopup.setEventListeners();
 
 const imagePopup = new PopupWithImage(".fullscreen-image");
 imagePopup.setEventListeners();
