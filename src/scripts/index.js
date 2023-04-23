@@ -1,17 +1,16 @@
 import "../pages/index.css";
-import Api from "./api";
 
+import Api from "./api";
 import * as constants from "./constants.js";
 import { enableValidation, hideFormErrors } from "./validate.js";
 import { Card, CardPrototype } from "./card.js";
 import UserInfo from "./profile.js";
-import { closePopup, openPopup } from "./modal.js";
 import Section from "./section.js";
 import PopupWithImage from "./PopupWithImage";
 import PopupWithForm from "./PopupWithForm";
 import PopupWithConfirmation from "./PopupWithConfirmation";
 
-export const api = new Api(constants.apiconfig)
+const api = new Api(constants.apiconfig);
 
 function openEditAvatarWindow() {
   hideFormErrors(avatarPopup.form, constants.validationSettings);
@@ -88,15 +87,25 @@ const userInfo = new UserInfo(
 );
 
 const cardPopup = new PopupWithForm(".popup_type_add-card", submitCardForm);
-const avatarPopup = new PopupWithForm(".popup_type_edit-avatar", submitAvatarFrom);
-const profilePopup = new PopupWithForm(".popup_type_edit-profile", submitProfileForm);
+const avatarPopup = new PopupWithForm(
+  ".popup_type_edit-avatar",
+  submitAvatarFrom
+);
+const profilePopup = new PopupWithForm(
+  ".popup_type_edit-profile",
+  submitProfileForm
+);
 const imagePopup = new PopupWithImage(".fullscreen-image");
-const confirmationPopup = new PopupWithConfirmation(".popup_type_confirm-delete", confirmCardDelete);
+const confirmationPopup = new PopupWithConfirmation(
+  ".popup_type_confirm-delete",
+  confirmCardDelete
+);
 
 const cardPrototype = new CardPrototype(
   {
     handleLikeClick: function () {
-      api.toggleLike(this.cardId, this.hasUserLike(userInfo.userId))
+      api
+        .toggleLike(this.cardId, this.hasUserLike(userInfo.userId))
         .then((data) => {
           this.toggleLikeButton(data.likes, userInfo.userId);
         })
@@ -111,12 +120,14 @@ const cardPrototype = new CardPrototype(
       imagePopup.open(this._link, this._name);
     },
     deleteCard: (cardId) => {
-      return api.deleteCard(cardId).then(() => {
-        imageSection.remove(cardId);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      return api
+        .deleteCard(cardId)
+        .then(() => {
+          imageSection.remove(cardId);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
     saveCard: function (newLabel, newImage) {
       return saveCard(newLabel, newImage).then((card) => {
@@ -140,7 +151,6 @@ const imageSection = new Section({
   selector: ".elements",
 });
 
-
 function submitCardForm({ label, link }) {
   const oldButtonLabel = this.setButtonLabel("Сохранение...");
   const card = new Card(
@@ -150,7 +160,8 @@ function submitCardForm({ label, link }) {
     },
     cardPrototype
   );
-  api.saveCard(card.getName(), card.getLink())
+  api
+    .saveCard(card.getName(), card.getLink())
     .then((data) => {
       card.enrichCard(data, userInfo.userId);
       console.log(card.element);
@@ -166,7 +177,6 @@ function submitCardForm({ label, link }) {
       this.setButtonLabel(oldButtonLabel);
     });
 }
-
 
 Promise.all([userInfo.getUserInfo(), imageSection.getCards()])
   .then(() => {
