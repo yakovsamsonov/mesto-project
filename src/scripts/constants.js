@@ -30,3 +30,4 @@ export const apiconfig = {
   id: "3BmSRqjRZYsE2r3pW6NrQ",
   emailAddress: "plus-cohort-22@ya.ru"
 }
+

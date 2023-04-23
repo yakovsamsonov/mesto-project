@@ -112,4 +112,12 @@ export class Card {
   _setLikes(likes) {
     this._likes = likes;
   }
+
+  getName(){
+    return this._name;
+  }
+
+  getLink(){
+    return this._link;
+  }
 }

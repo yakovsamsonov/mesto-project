@@ -1,5 +1,3 @@
-import { apiconfig } from './constants.js'
-
 function checkResponse(response) {
   if (response.ok) {
     return response.json();

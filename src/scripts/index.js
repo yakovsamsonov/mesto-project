@@ -1,4 +1,5 @@
 import "../pages/index.css";
+import Api from "./api";
 
 import * as constants from "./constants.js";
 import { enableValidation, hideFormErrors } from "./validate.js";
@@ -10,15 +11,7 @@ import PopupWithImage from "./PopupWithImage";
 import PopupWithForm from "./PopupWithForm";
 import PopupWithConfirmation from "./PopupWithConfirmation";
 
-import {
-  loadProfile,
-  loadCards,
-  deleteCard,
-  saveCard,
-  saveLike,
-  updateAvatar,
-  updateProfile,
-} from "./api.js";
+export const api = new Api(constants.apiconfig)
 
 function openEditAvatarWindow() {
   hideFormErrors(avatarPopup.form, constants.validationSettings);
@@ -57,7 +50,10 @@ function submitCardForm({ label, link }) {
   );
   card
     .saveCard()
-    .then(() => this.close())
+    .then(() => {
+      submitForm(evt);
+      this.close
+    })
     .catch((err) => {
       console.log(err);
     })
@@ -103,13 +99,13 @@ const userInfo = new UserInfo(
   },
   {
     loadProfile: () => {
-      return loadProfile();
+      return api.loadProfile();
     },
     updateProfile: (newName, newDescription) => {
-      return updateProfile(newName, newDescription);
+      return api.updateProfile(newName, newDescription);
     },
     updateAvatar: (newAvatar) => {
-      return updateAvatar(newAvatar);
+      return api.updateAvatar(newAvatar);
     },
   }
 );
@@ -123,7 +119,7 @@ const confirmationPopup = new PopupWithConfirmation(".popup_type_confirm-delete"
 const cardPrototype = new CardPrototype(
   {
     handleLikeClick: function () {
-      saveLike(this.cardId, this.hasUserLike(userInfo.userId))
+      api.toggleLike(this.cardId, this.hasUserLike(userInfo.userId))
         .then((data) => {
           this.toggleLikeButton(data.likes, userInfo.userId);
         })
@@ -138,7 +134,7 @@ const cardPrototype = new CardPrototype(
       imagePopup.open(this._link, this._name);
     },
     deleteCard: (cardId) => {
-      return deleteCard(cardId).then(() => {
+      return api.deleteCard(cardId).then(() => {
         imageSection.remove(cardId);
       });
     },
@@ -159,7 +155,7 @@ const imageSection = new Section({
     imageSection.addItemToEnd(card.element);
   },
   loadCards: () => {
-    return loadCards();
+    return api.loadCards();
   },
   selector: ".elements",
 });
