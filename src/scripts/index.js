@@ -8,6 +8,7 @@ import { closePopup, openPopup } from "./modal.js";
 import Section from "./section.js";
 import PopupWithImage from "./PopupWithImage";
 import PopupWithForm from "./PopupWithForm";
+import PopupWithConfirmation from "./PopupWithConfirmation";
 
 import {
   loadProfile,
@@ -36,14 +37,10 @@ function openAddCardWindow() {
   cardPopup.open();
 }
 
-function confirmCardDelete(evt) {
-  const cardId = constants.confirmationPopup.dataset.cardId;
+function confirmCardDelete(cardId) {
   cardPrototype
     .deleteCard(cardId)
-    .then(() => {
-      closePopup(evt.target.closest(".popup"));
-      constants.confirmationPopup.dataset.cardId = "";
-    })
+    .then(() => this.close())
     .catch((err) => {
       console.log(err);
     });
@@ -98,14 +95,6 @@ function submitAvatarFrom(inputValues) {
     });
 }
 
-constants.editProfileButton.addEventListener("click", openEditProfileWindow);
-constants.addNewCardButton.addEventListener("click", openAddCardWindow);
-constants.profileAvatar.addEventListener("click", openEditAvatarWindow);
-
-constants.confirmationPopup
-  .querySelector(".form__action-button")
-  .addEventListener("click", confirmCardDelete);
-
 const userInfo = new UserInfo(
   {
     nameSelector: ".profile__name",
@@ -129,6 +118,7 @@ const cardPopup = new PopupWithForm(".popup_type_add-card", submitCardForm);
 const avatarPopup = new PopupWithForm(".popup_type_edit-avatar", submitAvatarFrom);
 const profilePopup = new PopupWithForm(".popup_type_edit-profile", submitProfileForm);
 const imagePopup = new PopupWithImage(".fullscreen-image");
+const confirmationPopup = new PopupWithConfirmation(".popup_type_confirm-delete", confirmCardDelete);
 
 const cardPrototype = new CardPrototype(
   {
@@ -142,9 +132,7 @@ const cardPrototype = new CardPrototype(
         });
     },
     handleDeleteClick: function () {
-      const popup = constants.confirmationPopup;
-      popup.dataset.cardId = this.cardId;
-      openPopup(popup);
+      confirmationPopup.open(this.cardId);
     },
     handleCardClick: function () {
       imagePopup.open(this._link, this._name);
@@ -185,8 +173,14 @@ Promise.all([userInfo.getUserInfo(), imageSection.getCards()])
     console.log(err);
   });
 
+constants.editProfileButton.addEventListener("click", openEditProfileWindow);
+constants.addNewCardButton.addEventListener("click", openAddCardWindow);
+constants.profileAvatar.addEventListener("click", openEditAvatarWindow);
+
 enableValidation(constants.validationSettings);
+
 cardPopup.setEventListeners();
 avatarPopup.setEventListeners();
 profilePopup.setEventListeners();
 imagePopup.setEventListeners();
+confirmationPopup.setEventListeners();

@@ -7,10 +7,6 @@ export const addNewCardButton = document.querySelector(
   ".profile__add-card-button"
 );
 
-export const confirmationPopup = document.querySelector(
-  ".popup_type_confirm-delete"
-);
-
 const profileForm = document.forms["profile"];
 export const profileNameInput = profileForm["name"];
 export const profileDescriptionInput = profileForm["description"];
