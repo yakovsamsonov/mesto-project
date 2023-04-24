@@ -39,29 +39,6 @@ function confirmCardDelete(cardId) {
     });
 }
 
-function submitCardForm({ label, link }) {
-  const oldButtonLabel = this.setButtonLabel("Сохранение...");
-  const card = new Card(
-    {
-      name: label,
-      link: link,
-    },
-    cardPrototype
-  );
-  card
-    .saveCard()
-    .then(() => {
-      submitForm(evt);
-      this.close
-    })
-    .catch((err) => {
-      console.log(err);
-    })
-    .finally(() => {
-      this.setButtonLabel(oldButtonLabel);
-    });
-}
-
 function submitProfileForm({ name, description }) {
   const oldButtonLabel = this.setButtonLabel("Сохранение...");
   userInfo
@@ -159,6 +136,34 @@ const imageSection = new Section({
   },
   selector: ".elements",
 });
+
+
+function submitCardForm({ label, link }) {
+  const oldButtonLabel = this.setButtonLabel("Сохранение...");
+  const card = new Card(
+    {
+      name: label,
+      link: link,
+    },
+    cardPrototype
+  );
+  api.saveCard(card.getName(), card.getLink())
+    .then((data) => {
+      card.enrichCard(data, userInfo.userId);
+      console.log(card.element);
+      imageSection.addItemToStart(card.element);
+    })
+    .then(() => {
+      this.close();
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+    .finally(() => {
+      this.setButtonLabel(oldButtonLabel);
+    });
+}
+
 
 Promise.all([userInfo.getUserInfo(), imageSection.getCards()])
   .then(() => {
