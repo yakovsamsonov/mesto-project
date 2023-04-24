@@ -1,12 +1,12 @@
 import "../pages/index.css";
-import Api from "./api";
-import "../pages/index.css";
 
 import * as constants from "./constants.js";
+import Api from "./api";
 import FormValidator from "./validate.js";
-import { Card, CardPrototype } from "./card.js";
-import UserInfo from "./profile.js";
-import Section from "./section.js";
+import Card from "./components/Сard.js";
+import CardPrototype from "./components/CardPrototype.js";
+import UserInfo from "./components/UserInfo.js";
+import Section from "./components/Section.js";
 import PopupWithImage from "./PopupWithImage";
 import PopupWithForm from "./PopupWithForm";
 import PopupWithConfirmation from "./PopupWithConfirmation";
