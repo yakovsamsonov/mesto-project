@@ -113,6 +113,9 @@ const cardPrototype = new CardPrototype(
     deleteCard: (cardId) => {
       return api.deleteCard(cardId).then(() => {
         imageSection.remove(cardId);
+      })
+      .catch((err) => {
+        console.log(err);
       });
     },
     saveCard: function (newLabel, newImage) {
