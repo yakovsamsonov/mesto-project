@@ -1,8 +1,9 @@
 import "../pages/index.css";
-
 import Api from "./api";
+import "../pages/index.css";
+
 import * as constants from "./constants.js";
-import { enableValidation, hideFormErrors } from "./validate.js";
+import FormValidator from "./validate.js";
 import { Card, CardPrototype } from "./card.js";
 import UserInfo from "./profile.js";
 import Section from "./section.js";
@@ -11,21 +12,28 @@ import PopupWithForm from "./PopupWithForm";
 import PopupWithConfirmation from "./PopupWithConfirmation";
 
 const api = new Api(constants.apiconfig);
+//валидация
+const profileFormValidator = new FormValidator(constants.validationSettings, constants.profileForm);
+profileFormValidator.enableValidation();
+const cardAddValidator = new FormValidator(constants.validationSettings, constants.cardAddForm);
+cardAddValidator.enableValidation();
+const changeAvatarFormValidator = new FormValidator(constants.validationSettings, constants.changeAvatarForm)
+changeAvatarFormValidator.enableValidation();
 
 function openEditAvatarWindow() {
-  hideFormErrors(avatarPopup.form, constants.validationSettings);
+  changeAvatarFormValidator.hideFormErrors();
   avatarPopup.open();
 }
 
 function openEditProfileWindow() {
   constants.profileNameInput.value = userInfo.name;
   constants.profileDescriptionInput.value = userInfo.about;
-  hideFormErrors(profilePopup.form, constants.validationSettings);
+  profileFormValidator.hideFormErrors();
   profilePopup.open();
 }
 
 function openAddCardWindow() {
-  hideFormErrors(cardPopup.form, constants.validationSettings);
+  cardAddValidator.hideFormErrors();
   cardPopup.open();
 }
 
@@ -190,8 +198,6 @@ Promise.all([userInfo.getUserInfo(), imageSection.getCards()])
 constants.editProfileButton.addEventListener("click", openEditProfileWindow);
 constants.addNewCardButton.addEventListener("click", openAddCardWindow);
 constants.profileAvatar.addEventListener("click", openEditAvatarWindow);
-
-enableValidation(constants.validationSettings);
 
 cardPopup.setEventListeners();
 avatarPopup.setEventListeners();
