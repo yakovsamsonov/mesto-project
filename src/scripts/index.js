@@ -7,9 +7,9 @@ import Card from "./components/Сard.js";
 import CardPrototype from "./components/CardPrototype.js";
 import UserInfo from "./components/UserInfo.js";
 import Section from "./components/Section.js";
-import PopupWithImage from "./PopupWithImage";
-import PopupWithForm from "./PopupWithForm";
-import PopupWithConfirmation from "./PopupWithConfirmation";
+import PopupWithImage from "./components/PopupWithImage";
+import PopupWithForm from "./components/PopupWithForm";
+import PopupWithConfirmation from "./components/PopupWithConfirmation";
 
 const api = new Api(constants.apiconfig);
 //валидация
