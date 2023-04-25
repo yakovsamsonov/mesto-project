@@ -37,6 +37,7 @@ export default class PopupWithForm extends Popup {
   }
 
   open(values) {
+    this._form.reset();
     this._validator.hideFormErrors();
     if (values) {
       for (const [name, value] of Object.entries(values)) {
