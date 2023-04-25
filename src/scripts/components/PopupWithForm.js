@@ -1,15 +1,17 @@
+import FormValidator from "./FormValidator";
 import Popup from "./Popup";
 
 export default class PopupWithForm extends Popup {
-  constructor(selector, handleFormSubmit) {
+  constructor(selector, handleFormSubmit, validationSettings) {
     super(selector);
     this._handleFormSubmit = handleFormSubmit;
-    this.form = this._popup.querySelector(".form");
-    this._button = this.form.querySelector(".form__action-button");
+    this._form = this._popup.querySelector(".form");
+    this._button = this._form.querySelector(".form__action-button");
+    this._validator = new FormValidator(validationSettings, this._form);
   }
 
   _getInputValues() {
-    return Array.from(this.form.querySelectorAll(".form__input"))
+    return Array.from(this._form.querySelectorAll(".form__input"))
       .reduce((result, input) => {
         result[input.name] = input.value;
         return result;
@@ -18,7 +20,8 @@ export default class PopupWithForm extends Popup {
 
   setEventListeners() {
     super.setEventListeners();
-    this.form.addEventListener("submit", (evt => {
+    this._validator.enableValidation();
+    this._form.addEventListener("submit", (evt => {
       evt.preventDefault();
 
       const oldButtonLabel = this._setButtonLabel("Сохранение...");
@@ -33,9 +36,19 @@ export default class PopupWithForm extends Popup {
     }).bind(this));
   }
 
+  open(values) {
+    this._validator.hideFormErrors();
+    if (values) {
+      for (const [name, value] of Object.entries(values)) {
+        this._form[name].value = value;
+      }
+    }
+    super.open();
+  }
+
   close() {
     super.close();
-    this.form.reset();
+    this._form.reset();
   }
 
   _setButtonLabel(label) {

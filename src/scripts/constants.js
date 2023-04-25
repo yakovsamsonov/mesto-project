@@ -7,12 +7,6 @@ export const addNewCardButton = document.querySelector(
   ".profile__add-card-button"
 );
 
-export const profileForm = document.forms["profile"];
-export const changeAvatarForm = document.forms["avatar"];
-export const cardAddForm = document.forms["card"]
-export const profileNameInput = profileForm["name"];
-export const profileDescriptionInput = profileForm["description"];
-
 export const validationSettings = {
   formSelector: ".form",
   fieldsetSelector: ".form__fieldset",
