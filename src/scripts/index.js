@@ -2,7 +2,7 @@ import "../pages/index.css";
 
 import * as constants from "./constants.js";
 import Api from "./Api";
-import FormValidator from "./Validate.js";
+import FormValidator from "./FormValidator.js";
 import Card from "./components/Сard.js";
 import CardPrototype from "./components/CardPrototype.js";
 import UserInfo from "./components/UserInfo.js";
