@@ -46,35 +46,6 @@ function confirmCardDelete(cardId) {
     });
 }
 
-function submitProfileForm({ name, description }) {
-  const oldButtonLabel = this.setButtonLabel("Сохранение...");
-  userInfo
-    .setUserInfo({
-      name: name,
-      about: description,
-    })
-    .then(() => this.close())
-    .catch((err) => {
-      console.log(err);
-    })
-    .finally(() => {
-      this.setButtonLabel(oldButtonLabel);
-    });
-}
-
-function submitAvatarFrom(inputValues) {
-  const oldButtonLabel = this.setButtonLabel("Сохранение...");
-  userInfo
-    .setUserInfo({ avatar: inputValues["avatar-link"] })
-    .then(() => this.close())
-    .catch((err) => {
-      console.log(err);
-    })
-    .finally(() => {
-      this.setButtonLabel(oldButtonLabel);
-    });
-}
-
 const userInfo = new UserInfo(
   {
     nameSelector: ".profile__name",
@@ -94,15 +65,37 @@ const userInfo = new UserInfo(
   }
 );
 
-const cardPopup = new PopupWithForm(".popup_type_add-card", submitCardForm);
-const avatarPopup = new PopupWithForm(
-  ".popup_type_edit-avatar",
-  submitAvatarFrom
+const cardPopup = new PopupWithForm(".popup_type_add-card",
+  ({ label, link }) => {
+    const card = new Card(
+      {
+        name: label,
+        link: link,
+      },
+      cardPrototype
+    );
+    return api
+      .saveCard(card.getName(), card.getLink())
+      .then((data) => {
+        card.enrichCard(data, userInfo.userId);
+        console.log(card.element);
+        imageSection.addItemToStart(card.element);
+      });
+  });
+
+const avatarPopup = new PopupWithForm(".popup_type_edit-avatar",
+  inputValues => userInfo.setUserInfo({ avatar: inputValues["avatar-link"] }));
+
+const profilePopup = new PopupWithForm(".popup_type_edit-profile",
+  ({ name, description }) => {
+    return userInfo
+      .setUserInfo({
+        name: name,
+        about: description,
+    });
+  }
 );
-const profilePopup = new PopupWithForm(
-  ".popup_type_edit-profile",
-  submitProfileForm
-);
+
 const imagePopup = new PopupWithImage(".fullscreen-image");
 const confirmationPopup = new PopupWithConfirmation(
   ".popup_type_confirm-delete",
@@ -159,32 +152,6 @@ const imageSection = new Section({
   selector: ".elements",
 });
 
-function submitCardForm({ label, link }) {
-  const oldButtonLabel = this.setButtonLabel("Сохранение...");
-  const card = new Card(
-    {
-      name: label,
-      link: link,
-    },
-    cardPrototype
-  );
-  api
-    .saveCard(card.getName(), card.getLink())
-    .then((data) => {
-      card.enrichCard(data, userInfo.userId);
-      console.log(card.element);
-      imageSection.addItemToStart(card.element);
-    })
-    .then(() => {
-      this.close();
-    })
-    .catch((err) => {
-      console.log(err);
-    })
-    .finally(() => {
-      this.setButtonLabel(oldButtonLabel);
-    });
-}
 
 Promise.all([userInfo.getUserInfo(), imageSection.getCards()])
   .then(() => {

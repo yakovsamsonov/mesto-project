@@ -20,7 +20,16 @@ export default class PopupWithForm extends Popup {
     super.setEventListeners();
     this.form.addEventListener("submit", (evt => {
       evt.preventDefault();
-      this._handleFormSubmit.call(this, this._getInputValues());
+
+      const oldButtonLabel = this._setButtonLabel("Сохранение...");
+      this._handleFormSubmit(this._getInputValues())
+        .then(() => this.close())
+        .catch((err) => {
+          console.log(err);
+        })
+        .finally(() => {
+          this._setButtonLabel(oldButtonLabel);
+        });
     }).bind(this));
   }
 
@@ -29,7 +38,7 @@ export default class PopupWithForm extends Popup {
     this.form.reset();
   }
 
-  setButtonLabel(label) {
+  _setButtonLabel(label) {
     const oldLabel = this._button.textContent;
     this._button.textContent = label;
     return oldLabel;
