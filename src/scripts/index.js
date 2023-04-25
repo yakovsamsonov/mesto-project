@@ -12,15 +12,6 @@ import PopupWithConfirmation from "./components/PopupWithConfirmation";
 
 const api = new Api(constants.apiconfig);
 
-function confirmCardDelete(cardId) {
-  cardPrototype
-    .deleteCard(cardId)
-    .then(() => this.close())
-    .catch((err) => {
-      console.log(err);
-    });
-}
-
 const userInfo = new UserInfo(
   {
     nameSelector: ".profile__name",
@@ -56,9 +47,9 @@ const cardPopup = new PopupWithForm(".popup_type_add-card",
         console.log(card.element);
         imageSection.addItemToStart(card.element);
       });
-    },
-    constants.validationSettings
-  );
+  },
+  constants.validationSettings
+);
 
 const avatarPopup = new PopupWithForm(".popup_type_edit-avatar",
   inputValues => userInfo.setUserInfo({ avatar: inputValues["avatar-link"] }),
@@ -70,16 +61,14 @@ const profilePopup = new PopupWithForm(".popup_type_edit-profile",
       .setUserInfo({
         name: name,
         about: description,
-    });
+      });
   },
   constants.validationSettings
 );
 
 const imagePopup = new PopupWithImage(".fullscreen-image");
-const confirmationPopup = new PopupWithConfirmation(
-  ".popup_type_confirm-delete",
-  confirmCardDelete
-);
+const confirmationPopup = new PopupWithConfirmation(".popup_type_confirm-delete",
+  (cardId) => cardPrototype.deleteCard(cardId));
 
 const cardPrototype = new CardPrototype(
   {
