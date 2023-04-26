@@ -7,6 +7,10 @@ export const addNewCardButton = document.querySelector(
   ".profile__add-card-button"
 );
 
+export const profileForm = document.forms["profile"];
+export const changeAvatarForm = document.forms["avatar"];
+export const cardAddForm = document.forms["card"];
+
 export const validationSettings = {
   formSelector: ".form",
   fieldsetSelector: ".form__fieldset",
@@ -25,5 +29,4 @@ export const apiconfig = {
   },
   id: "3BmSRqjRZYsE2r3pW6NrQ",
   emailAddress: "plus-cohort-22@ya.ru"
-}
-
+};

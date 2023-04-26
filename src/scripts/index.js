@@ -9,6 +9,7 @@ import Section from "./components/Section.js";
 import PopupWithImage from "./components/PopupWithImage";
 import PopupWithForm from "./components/PopupWithForm";
 import PopupWithConfirmation from "./components/PopupWithConfirmation";
+import FormValidator from "./components/FormValidator";
 
 const api = new Api(constants.apiconfig);
 
@@ -48,12 +49,12 @@ const cardPopup = new PopupWithForm(".popup_type_add-card",
         imageSection.addItemToStart(card.element);
       });
   },
-  constants.validationSettings
+  new FormValidator(constants.validationSettings, constants.cardAddForm)
 );
 
 const avatarPopup = new PopupWithForm(".popup_type_edit-avatar",
   inputValues => userInfo.setUserInfo({ avatar: inputValues["avatar-link"] }),
-  constants.validationSettings);
+  new FormValidator(constants.validationSettings, constants.changeAvatarForm));
 
 const profilePopup = new PopupWithForm(".popup_type_edit-profile",
   ({ name, description }) => {
@@ -63,7 +64,7 @@ const profilePopup = new PopupWithForm(".popup_type_edit-profile",
         about: description,
       });
   },
-  constants.validationSettings
+  new FormValidator(constants.validationSettings, constants.profileForm)
 );
 
 const imagePopup = new PopupWithImage(".fullscreen-image");
