@@ -133,8 +133,12 @@ Promise.all([userInfo.getUserInfo(), imageSection.getCards()])
 
 constants.editProfileButton.addEventListener("click", () =>
   profilePopup.open({ name: userInfo.name, description: userInfo.about }));
-constants.addNewCardButton.addEventListener("click", () => cardPopup.open());
-constants.profileAvatar.addEventListener("click", () => avatarPopup.open());
+constants.addNewCardButton.addEventListener("click", () => {
+  cardPopup.open();
+  cardPopup.toggleSubmitButton()});
+constants.profileAvatar.addEventListener("click", () => {
+  avatarPopup.open();
+  avatarPopup.toggleSubmitButton()});
 
 cardPopup.setEventListeners();
 avatarPopup.setEventListeners();
