@@ -41,13 +41,7 @@ const cardPopup = new PopupWithForm(".popup_type_add-card",
       },
       cardPrototype
     );
-    return api
-      .saveCard(card.getName(), card.getLink())
-      .then((data) => {
-        card.enrichCard(data, userInfo.userId);
-        console.log(card.element);
-        imageSection.addItemToStart(card.element);
-      });
+    return card.saveCard();
   },
   new FormValidator(constants.validationSettings, constants.cardAddForm)
 );
@@ -100,9 +94,10 @@ const cardPrototype = new CardPrototype(
         });
     },
     saveCard: function (newLabel, newImage) {
-      return saveCard(newLabel, newImage).then((card) => {
-        this.enrichCard(card, userInfo.userId);
-        imageSection.addItemToStart(this.element);
+      return api.saveCard(newLabel, newImage).then((card) => {
+        this.enrichCard(card);
+        const cardElement = this.createCard(userInfo.userId);
+        imageSection.addItemToStart(cardElement);
       });
     },
   },
@@ -112,20 +107,18 @@ const cardPrototype = new CardPrototype(
 const imageSection = new Section({
   renderer: (item) => {
     const card = new Card({}, cardPrototype);
-    card.enrichCard(item, userInfo.userId);
-    imageSection.addItemToEnd(card.element);
-  },
-  loadCards: () => {
-    return api.loadCards();
+    card.enrichCard(item);
+    const cardElement = card.createCard(userInfo.userId);
+    imageSection.addItemToEnd(cardElement);
   },
   selector: ".elements",
 });
 
 
-Promise.all([userInfo.getUserInfo(), imageSection.getCards()])
-  .then(() => {
+Promise.all([userInfo.getUserInfo(), api.loadCards()])
+  .then((data) => {
     userInfo.renderProfile();
-    imageSection.renderItems();
+    imageSection.renderItems(data[1]);
   })
   .catch((err) => {
     console.log(err);

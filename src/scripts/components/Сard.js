@@ -23,7 +23,15 @@ export default class Card {
     return this._id;
   }
 
-  _setElement() {
+  get name() {
+    return this._name;
+  }
+
+  get link() {
+    return this._link;
+  }
+
+  _setEmptyElement() {
     this._element = document
       .querySelector(this._selector)
       .content.querySelector(".card")
@@ -41,21 +49,21 @@ export default class Card {
     this._cardItemPhoto.addEventListener("click", this._handleCardClick);
   }
 
-  enrichCard({ _id, name, link, likes, owner }, userId) {
+  enrichCard({ _id, name, link, likes, owner }) {
     this._id = _id;
     this._name = name;
     this._link = link;
     this._setLikes(likes);
     this._owner = owner;
-    this._createCard(userId);
   }
 
   saveCard() {
+    debugger;
     return this._saveCard(this._name, this._link);
   }
 
-  _createCard(userId) {
-    this._setElement();
+  createCard(userId) {
+    this._setEmptyElement();
     this._cardItemPhoto = this._element.querySelector(".card__item-photo");
     this._cardItemLabel = this._element.querySelector(".card__item-label");
     this._deleteButton = this._element.querySelector(".card__delete-button");
@@ -67,6 +75,7 @@ export default class Card {
     this._cardItemLabel.textContent = this._name;
     this.toggleLikeButton(this._likes, userId);
     this._setEventListeners(userId);
+    return this._element
   }
 
   hasUserLike(userId) {
@@ -87,13 +96,5 @@ export default class Card {
 
   _setLikes(likes) {
     this._likes = likes;
-  }
-
-  getName(){
-    return this._name;
-  }
-
-  getLink(){
-    return this._link;
   }
 }

@@ -1,8 +1,7 @@
 export default class Section {
-  constructor({ renderer, loadCards, selector }) {
+  constructor({ renderer, selector }) {
     this._container = document.querySelector(selector);
     this._renderer = renderer;
-    this._loadCards = loadCards;
     this._data = [];
   }
 
@@ -26,14 +25,9 @@ export default class Section {
     this._container.innerHTML = "";
   }
 
-  getCards() {
-    return this._loadCards().then((data) => {
-      this._data = data;
-    });
-  }
-
-  renderItems() {
+  renderItems(data) {
     this._clear();
+    this._data = data;
 
     this._data.forEach((item) => {
       this._renderer(item);
