@@ -19,7 +19,7 @@ export default class FormValidator {
   }
 
   toggleButtonState() {
-    this.toggleButtonState();
+    this._toggleButtonState();
   }
 
   _hasInvalidInput() {
