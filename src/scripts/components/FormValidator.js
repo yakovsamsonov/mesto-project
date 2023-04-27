@@ -4,7 +4,6 @@ export default class FormValidator {
       this._formElement = formElement;
       this._inputList = Array.from(formElement.querySelectorAll(validationConfig.inputSelector));
       this._submitButton = formElement.querySelector(validationConfig.submitButtonSelector);
-      this._fieldsetList = Array.from(formElement.querySelectorAll(validationConfig.fieldsetSelector));
     }
   
 
