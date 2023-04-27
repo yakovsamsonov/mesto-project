@@ -36,10 +36,6 @@ export default class PopupWithForm extends Popup {
     }).bind(this));
   }
 
-  toggleSubmitButton(){
-    this._validator.toggleButtonState();
-  }
-
   open(values) {
     this._form.reset();
     this._validator.hideFormErrors();
@@ -48,6 +44,8 @@ export default class PopupWithForm extends Popup {
         this._form[name].value = value;
       }
     }
+
+    this._validator.toggleButtonState();
     super.open();
   }
 
