@@ -58,7 +58,6 @@ export default class Card {
   }
 
   saveCard() {
-    debugger;
     return this._saveCard(this._name, this._link);
   }
 
