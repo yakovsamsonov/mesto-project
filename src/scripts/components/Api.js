@@ -1,20 +1,21 @@
-function checkResponse(response) {
-  if (response.ok) {
-    return response.json();
-  } else {
-    console.log(`HTTP ошибка! статус: ${response.status}`);
-  }
-}
-
 export default class Api {
   constructor(options) {
     this.options = options;
   }
 
+  checkResponse(response) {
+    if (response.ok) {
+      return response.json();
+    } else {
+      console.log(`HTTP ошибка! статус: ${response.status}`);
+    }
+  }
+  
+
   loadProfile() {
     return fetch(`${this.options.baseUrl}/users/me`, {
       headers: this.options.headers
-    }).then(checkResponse)
+    }).then(this.checkResponse)
   }
 
   updateProfile(name, about) {
@@ -26,7 +27,7 @@ export default class Api {
         about
       })
     })
-      .then(checkResponse)
+      .then(this.checkResponse)
   }
 
   updateAvatar(avatarImageLink) {
@@ -37,7 +38,7 @@ export default class Api {
         avatar: avatarImageLink,
       }),
     })
-      .then(checkResponse);
+      .then(this.checkResponse);
   }
 
   deleteCard(cardId) {
@@ -45,14 +46,14 @@ export default class Api {
       method: 'DELETE',
       headers: this.options.headers,
     })
-      .then(checkResponse)
+      .then(this.checkResponse)
   }
 
   loadCards() {
     return fetch(`${this.options.baseUrl}/cards`, {
       headers: this.options.headers
     })
-      .then(checkResponse)
+      .then(this.checkResponse)
   }
 
   saveCard(name, link) {
@@ -64,7 +65,7 @@ export default class Api {
         link
       })
     })
-    .then(checkResponse)
+    .then(this.checkResponse)
   }
 
   toggleLike(cardId, isLiked) {
@@ -73,6 +74,6 @@ export default class Api {
       method,
       headers: this.options.headers
     })
-    .then(checkResponse);
+    .then(this.checkResponse);
   }
 }
