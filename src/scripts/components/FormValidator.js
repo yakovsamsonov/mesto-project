@@ -70,21 +70,5 @@ export default class FormValidator {
 
   enableValidation() {
     this._setEventListeners();
-
-    this._fieldsetList.forEach(fieldset => {
-      const submitButton = fieldset.querySelector(this._validationConfig.submitButtonSelector);
-      const inputList = Array.from(fieldset.querySelectorAll(this._validationConfig.inputSelector));
-
-      inputList.forEach(input => {
-        input.addEventListener('input', () => {
-          this._checkInputValidity(input);
-          this._toggleButtonState();
-        });
-      });
-
-      submitButton.addEventListener('click', () => {
-        this._toggleButtonState();
-      });
-    });
   }
 }
