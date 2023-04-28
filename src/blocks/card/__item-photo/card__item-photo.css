@@ -3,7 +3,7 @@
   display: block;
   width: 282px;
   height: 282px;
-  object-fit: fill;
+  object-fit: cover;
   margin: 0;
   padding: 0;
   border-top-left-radius: 10px;

@@ -1,5 +1,6 @@
 node_modules
-yarn.lock
+.vscode
+yarn-error.log
 /src/vendor/Inter-3.19
 /src/images_origin
 dist

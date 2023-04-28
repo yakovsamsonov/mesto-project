@@ -55,3 +55,12 @@ Deploy в gh-pages:
 ```
 yarn run deploy
 ```
+
+**Контрибьюторы**
+
+https://github.com/Natalica22
+
+https://github.com/alicerossiinthecodeworld
+
+https://github.com/yakovsamsonov
+
